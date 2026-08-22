@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #080808;
+  --gold: #D4AF37;
+  --gold-light: #F3E5AB;
+  --gold-muted: #9A7E30;
+  --text: #F2F2F2;
+  --text-dim: #888888;
+  --card: #121212;
+  --card-elevated: #181818;
+  --border: rgba(212, 175, 55, 0.2);
+  --border-active: rgba(212, 175, 55, 0.8);
+  --font-serif: 'Cinzel', 'Georgia', 'Noto Serif KR', serif;
+  --font-sans: 'Pretendard', 'Helvetica Neue', Arial, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    background-color: var(--bg);
+    color: var(--text);
+  }
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+  }
+}
+
+.font-serif-luxury {
+  font-family: var(--font-serif);
+}
+
+.font-korean-serif {
+  font-family: 'Noto Serif KR', 'Georgia', serif;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* Sophisticated Dark Theme Custom Classes */
+.bg-dark-canvas {
+  background-color: #080808;
+}
+
+.bg-dark-card {
+  background-color: rgba(18, 18, 18, 0.95);
+}
+
+.bg-dark-elevated {
+  background-color: #161616;
+}
+
+/* Metallic gold gradients */
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #d4af37 0%, #fae69e 50%, #b8860b 100%);
+}
+
+.bg-gold-subtle {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.03) 100%);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #fdf1c8 0%, #d4af37 45%, #e6c35c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.border-gold-theme {
+  border-color: rgba(212, 175, 55, 0.2);
+}
+
+.border-gold-glow {
+  border-color: rgba(212, 175, 55, 0.7);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.22);
+}
+
+.gold-glow {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+}
+
+/* Map Dot Pattern matching Sophisticated Dark specification */
+.mock-map-grid {
+  background-image: radial-gradient(circle at 2px 2px, #262626 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Hero Badge */
+.hero-badge-dark {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 4px 14px;
+  border-radius: 9999px;
+  letter-spacing: 2px;
+  background: rgba(212, 175, 55, 0.08);
+}
+
+/* Buttons matching Sophisticated Dark Spec */
+.btn-gold {
+  background-color: var(--gold);
+  color: #080808;
+  font-weight: 700;
+  border: 1px solid var(--gold);
+  transition: all 0.2s ease;
+}
+
+.btn-gold:hover {
+  background-color: #e5c158;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-gold-secondary {
+  background-color: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-gold-secondary:hover {
+  background-color: rgba(212, 175, 55, 0.12);
+  border-color: #fae69e;
+  color: #fae69e;
+}
+
+/* Pulse animation for map markers and hot points */
+@keyframes pulse-gold {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
+  }
+  70% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+  }
+}
+
+.animate-pulse-gold {
+  animation: pulse-gold 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+

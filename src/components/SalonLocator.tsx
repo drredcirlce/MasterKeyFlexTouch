@@ -134,7 +134,7 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/40">
-                            {salon.certifiedGrade}
+                            {salon.isCertifiedMaster ? '마스터 공인점' : '공인 인증점'}
                           </span>
                           <span className="text-xs text-[#5B4870] font-semibold">{salon.city} · {salon.district}</span>
                         </div>
@@ -220,7 +220,7 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/40">
-                        {activeSalon.certifiedGrade}
+                        {activeSalon.isCertifiedMaster ? '마스터 공인점' : '공인 인증점'}
                       </span>
                       <span className="text-xs text-[#5B4870]">원장 {activeSalon.directorName}</span>
                     </div>
@@ -247,7 +247,7 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
                   </div>
                   <div className="flex items-center gap-2 text-[#5B4870]">
                     <Clock className="w-4 h-4 text-[#9333EA] shrink-0" />
-                    <span>{activeSalon.operatingHours} (휴무: {activeSalon.closedDay})</span>
+                    <span>{activeSalon.businessHours} (휴무: {activeSalon.closedDay})</span>
                   </div>
                 </div>
 
@@ -257,14 +257,14 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
                     제공 플렉스터치 시술 메뉴
                   </span>
                   <div className="flex flex-wrap gap-1.5">
-                    {activeSalon.availablePrograms.map((progId, idx) => (
+                    {activeSalon.supportedProgramIds.map((progId, idx) => (
                       <span
                         key={idx}
                         className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-[#180D26] border border-[#A855F7]/25"
                       >
-                        {progId === 'neck-shoulder-flextouch'
+                        {progId === 'neck-shoulder'
                           ? '5분 넥숄더 퀵터치'
-                          : progId === 'fascia-reconstruction-lifting'
+                          : progId === 'fascia-lifting'
                           ? '근막재건 리프팅'
                           : '뇌청소 두피스파'}
                       </span>

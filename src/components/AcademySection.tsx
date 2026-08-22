@@ -19,10 +19,16 @@ import {
 } from 'lucide-react';
 
 interface AcademySectionProps {
+  onOpenDirectorPortal?: () => void;
+  onSubmitApplication?: (appData: AcademyApplicationData) => void;
   onApplySuccess?: () => void;
 }
 
-export const AcademySection: React.FC<AcademySectionProps> = ({ onApplySuccess }) => {
+export const AcademySection: React.FC<AcademySectionProps> = ({
+  onOpenDirectorPortal,
+  onSubmitApplication,
+  onApplySuccess,
+}) => {
   const [directorName, setDirectorName] = useState('');
   const [salonName, setSalonName] = useState('');
   const [phone, setPhone] = useState('');
@@ -65,6 +71,7 @@ export const AcademySection: React.FC<AcademySectionProps> = ({ onApplySuccess }
     };
 
     setSubmitted(true);
+    if (onSubmitApplication) onSubmitApplication(application);
     if (onApplySuccess) onApplySuccess();
   };
 

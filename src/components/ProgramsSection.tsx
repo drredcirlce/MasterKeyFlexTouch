@@ -178,7 +178,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                       <span className="text-[10px] text-[#5B4870] block">공식 권장 시술가</span>
                       <div className="flex items-baseline gap-1">
                         <span className="text-lg font-bold text-[#180D26]">
-                          {firstPlan?.price.toLocaleString()}원
+                          {firstPlan?.salePrice.toLocaleString()}원
                         </span>
                         <span className="text-[11px] text-[#5B4870]">/ {firstPlan?.sessions}회</span>
                       </div>

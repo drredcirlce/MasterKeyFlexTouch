@@ -14,7 +14,7 @@ export interface Program {
   tagline: string;
   durationMinutes: number;
   targetArea: string;
-  category: 'neck_shoulder' | 'fascia_lifting' | 'brain_scalp';
+  category: 'neck-shoulder' | 'fascia-lifting' | 'scalp' | string;
   keyEffects: string[];
   anatomicalPoints: {
     name: string;
@@ -40,8 +40,8 @@ export interface Salon {
   directorTitle: string;
   address: string;
   detailAddress: string;
-  district: string; // e.g., '강남구', '분당구', '해운대구'
-  city: string; // '서울', '경기', '부산', '대구', '대전', '인천'
+  district: string; // e.g., '강남구', '서초구', '분당구', '해운대구'
+  city: string; // '서울', '경기', '부산'
   lat: number;
   lng: number;
   phone: string;
@@ -88,17 +88,17 @@ export interface AcademyApplicationData {
   id: string;
   directorName: string;
   salonName: string;
-  businessNumber: string;
-  region: string;
-  address: string;
   phone: string;
-  email: string;
+  email?: string;
+  region: string;
   trainingType: 'regular_academy' | 'visit_1on1' | 'group_seminar';
-  preferredDay: string; // '월요일반' | '화요일반' | '방문일정조율'
-  chairCount: number;
-  designerCount: number;
-  currentScalpMenu: 'none' | 'basic' | 'premium';
-  inquiry: string;
+  preferredDay: string;
+  inquiry?: string;
+  businessNumber?: string;
+  address?: string;
+  chairCount?: number;
+  designerCount?: number;
+  currentScalpMenu?: 'none' | 'basic' | 'premium';
   submittedAt: string;
   status: 'submitted' | 'confirmed';
 }
@@ -122,4 +122,21 @@ export interface FaqItem {
   question: string;
   answer: string;
   category: 'customer' | 'director' | 'fascia';
+}
+
+export interface FooterInfo {
+  brand: string;
+  brandDesc: string;
+  company: string;
+  companyName: string;
+  ceo: string;
+  address: string;
+  phone: string;
+  mobilePhone: string;
+  email: string;
+  hours: string;
+  businessNumber: string;
+  telecomNumber: string;
+  disclaimer: string;
+  copyright: string;
 }

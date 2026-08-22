@@ -121,35 +121,56 @@ export const ProgramDetailModal: React.FC<ProgramDetailModalProps> = ({
           </div>
         </div>
 
-        {/* Pricing Plans & Booking CTA */}
+        {/* Pricing Plans & Director Adoption Guide */}
         <div className="pt-4 border-t border-[#A855F7]/15">
-          <h4 className="text-xs font-bold text-[#180D26] uppercase tracking-wider mb-3">
-            권장 시술 요금제 선택 & 즉시 예약
-          </h4>
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="text-xs font-bold text-[#180D26] uppercase tracking-wider">
+              살롱 권장 정찰제 요금 및 3+1회 티케팅 가이드
+            </h4>
+            <span className="text-[11px] text-[#DB2777] font-semibold">객단가 35% 상승 솔루션</span>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             {program.pricingPlans.map((plan, idx) => (
               <div
                 key={idx}
                 className="p-4 rounded-2xl bg-[#FAF7FD] border border-[#A855F7]/20 flex flex-col justify-between"
               >
                 <div>
-                  <h5 className="text-xs font-bold text-[#180D26]">{plan.name}</h5>
-                  <p className="text-[11px] text-[#5B4870] mt-1">{plan.description}</p>
+                  <div className="flex items-center justify-between mb-1">
+                    <h5 className="text-xs font-bold text-[#180D26]">{plan.name}</h5>
+                    {plan.badge && (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#FCE7F3] text-[#BE185D]">
+                        {plan.badge}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-[#5B4870]">{plan.description}</p>
                 </div>
                 <div className="mt-3 pt-3 border-t border-[#A855F7]/15 flex items-center justify-between">
-                  <span className="text-sm font-bold text-[#BE185D]">
+                  <span className="text-sm font-bold text-[#7E22CE]">
                     {plan.salePrice.toLocaleString()}원
                   </span>
-                  <button
-                    onClick={() => onSelectReservation(program.id, idx)}
-                    className="px-3 py-1 rounded-lg bg-gradient-to-r from-[#9333EA] to-[#DB2777] text-white text-[11px] font-bold shadow-sm cursor-pointer"
-                  >
-                    예약
-                  </button>
+                  <span className="text-[11px] text-[#5B4870]">
+                    원장 정찰제 세팅
+                  </span>
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="pt-2">
+            <button
+              onClick={() => {
+                onClose();
+                const elem = document.getElementById('academy');
+                if (elem) elem.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-[#9333EA] via-[#A855F7] to-[#DB2777] text-white font-bold text-xs sm:text-sm shadow-md shadow-pink-900/20 hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>이 테크닉 60분 실습 아카데미 신청하기</span>
+            </button>
           </div>
         </div>
       </div>

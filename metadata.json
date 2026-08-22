@@ -1,6 +1,6 @@
 {
-  "name": "마스터키 플렉스터치",
-  "description": "한의학 근막 이론과 프리미엄 헤어살롱 메디뷰티의 결합, 쇄골부터 두피까지 아름다운 건강의 열쇠 마스터키 플렉스터치 (MASTERKEY FLEX TOUCH)",
+  "name": "마스터키 플렉스터치 (원장님 전용)",
+  "description": "헤어살롱 원장님을 위한 한의사 직강 60분 실습과정 및 지역 독점 가맹 메디뷰티 솔루션 (MASTERKEY FLEX TOUCH)",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

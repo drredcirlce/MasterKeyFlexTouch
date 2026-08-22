@@ -3,51 +3,43 @@ import { Salon } from '../types';
 import {
   MapPin,
   Search,
-  Phone,
   Clock,
-  Award,
-  Navigation,
-  CheckCircle2,
-  Calendar,
   ExternalLink,
   ChevronRight,
-  Filter,
-  Sparkles
+  ShieldCheck,
+  Building,
+  Lock,
+  GraduationCap
 } from 'lucide-react';
 
 interface SalonLocatorProps {
   salons: Salon[];
-  onOpenReservation: (salonId: string) => void;
+  onOpenReservation?: (salonId: string) => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
 }
 
 export const SalonLocator: React.FC<SalonLocatorProps> = ({
   salons,
-  onOpenReservation,
   searchQuery,
   onSearchChange,
 }) => {
-  const [selectedCity, setSelectedCity] = useState<string>('all');
-  const [selectedSalonId, setSelectedSalonId] = useState<string>(salons[0]?.id || 'salon-1');
-
-  const cities = ['all', '서울', '경기', '부산'];
+  const [selectedSalonId, setSelectedSalonId] = useState<string>(salons[0]?.id || 'salon-cheongdam-auraj');
 
   const filteredSalons = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return salons;
     return salons.filter((salon) => {
-      const matchCity = selectedCity === 'all' || salon.city.includes(selectedCity);
-      const q = searchQuery.toLowerCase().trim();
-      const matchQuery =
-        !q ||
+      return (
         salon.name.toLowerCase().includes(q) ||
         salon.branch.toLowerCase().includes(q) ||
         salon.address.toLowerCase().includes(q) ||
         salon.district.toLowerCase().includes(q) ||
-        salon.nearestStation.toLowerCase().includes(q);
-
-      return matchCity && matchQuery;
+        salon.city.toLowerCase().includes(q) ||
+        salon.directorName.toLowerCase().includes(q)
+      );
     });
-  }, [salons, selectedCity, searchQuery]);
+  }, [salons, searchQuery]);
 
   const activeSalon = salons.find((s) => s.id === selectedSalonId) || filteredSalons[0] || salons[0];
 
@@ -57,50 +49,34 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="hero-badge-dark inline-flex items-center gap-2 mb-3">
-            <MapPin className="w-3.5 h-3.5 text-[#DB2777]" />
-            <span>CERTIFIED MASTERKEY SALONS</span>
+            <Lock className="w-3.5 h-3.5 text-[#DB2777]" />
+            <span>FRANCHISE TERRITORY & EXCLUSIVITY</span>
           </div>
           <h2 className="text-2xl sm:text-4xl font-bold text-[#180D26] font-serif-luxury mb-4">
-            전국 공인 인증 가맹 헤어살롱
+            전국 가맹 헤어샵 상권 및
             <span className="block mt-1 text-beauty-gradient">
-              내 주변 가장 가까운 마스터 헤어샵 찾기
+              지역 독점 권역 확보 현황 (반경 500m 보호)
             </span>
           </h2>
           <p className="text-sm sm:text-base text-[#5B4870]">
-            (주)케이메디플러스 플렉스터치 정규 수료 인증을 획득한 전문 원장님이 직접 시술합니다.
+            마스터키 플렉스터치는 가맹 원장님의 안정적인 매출과 독점 영업권을 위해 상권 보호제를 시행합니다. 기확보된 살롱 권역을 확인하시고 원장님 샵의 지역 선점을 신청하세요.
           </p>
         </div>
 
-        {/* Filter and Search Bar */}
+        {/* Quick Search Bar (No Category Tabs) */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 bg-white p-4 rounded-2xl border border-[#A855F7]/20 shadow-sm">
-          {/* City Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
-            <span className="text-xs font-bold text-[#5B4870] shrink-0 mr-1 flex items-center gap-1">
-              <Filter className="w-3.5 h-3.5 text-[#7E22CE]" />
-              <span>지역:</span>
-            </span>
-            {cities.map((city) => (
-              <button
-                key={city}
-                onClick={() => setSelectedCity(city)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-                  selectedCity === city
-                    ? 'bg-gradient-to-r from-[#9333EA] to-[#DB2777] text-white shadow-sm'
-                    : 'bg-[#FAF7FD] text-[#5B4870] hover:text-[#180D26] hover:bg-[#F3E8FC]'
-                }`}
-              >
-                {city === 'all' ? '전국 전체' : city}
-              </button>
-            ))}
+          <div className="flex items-center gap-2 text-xs font-bold text-[#180D26]">
+            <ShieldCheck className="w-4 h-4 text-[#DB2777]" />
+            <span>전국 공식 가맹 인증점 {salons.length}개소 독점 권역 등록 완료</span>
           </div>
 
           {/* Search Input */}
-          <div className="relative w-full sm:w-72">
+          <div className="relative w-full sm:w-80">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="살롱명, 역세권(강남/판교), 구(강남구)..."
+              placeholder="지역명(청담/서초/판교/부산), 샵명 검색..."
               className="w-full pl-9 pr-3 py-2 text-xs bg-[#FAF7FD] border border-[#A855F7]/25 rounded-xl text-[#180D26] placeholder-[#8A78A0] focus:outline-none focus:border-[#DB2777] focus:ring-1 focus:ring-[#DB2777]/30 transition-all"
             />
             <Search className="w-4 h-4 text-[#8A78A0] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -110,16 +86,23 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
         {/* Map & List Split Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Column: Salon List */}
-          <div className="lg:col-span-5 space-y-3.5 max-h-[640px] overflow-y-auto pr-1">
+          <div className="lg:col-span-5 space-y-3 max-h-[640px] overflow-y-auto pr-1">
             {filteredSalons.length === 0 ? (
               <div className="text-center py-12 bg-white rounded-2xl border border-[#A855F7]/20 p-6">
                 <MapPin className="w-8 h-8 text-[#8A78A0] mx-auto mb-2 opacity-50" />
-                <p className="text-sm font-bold text-[#180D26]">검색 결과가 없습니다.</p>
-                <p className="text-xs text-[#5B4870] mt-1">지역명이나 살롱명을 다시 확인해주세요.</p>
+                <p className="text-sm font-bold text-[#180D26]">검색된 지역 상권이 없습니다.</p>
+                <p className="text-xs text-[#5B4870] mt-1">해당 지역은 현재 신규 가맹 선점이 가능한 권역입니다.</p>
+                <a
+                  href="#director-signup"
+                  className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#9333EA] to-[#DB2777] text-white text-xs font-bold shadow-md shadow-pink-900/20"
+                >
+                  <Building className="w-3.5 h-3.5" />
+                  <span>해당 지역 1호 가맹 신청하기</span>
+                </a>
               </div>
             ) : (
               filteredSalons.map((salon) => {
-                const isSelected = salon.id === activeSalon.id;
+                const isSelected = salon.id === activeSalon?.id;
                 return (
                   <div
                     key={salon.id}
@@ -133,16 +116,18 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/40">
-                            {salon.isCertifiedMaster ? '마스터 공인점' : '공인 인증점'}
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#1F0D33] text-[#F472B6] border border-[#9333EA]/30">
+                            상권 확보 완료
                           </span>
                           <span className="text-xs text-[#5B4870] font-semibold">{salon.city} · {salon.district}</span>
                         </div>
-                        <h4 className="text-base font-bold text-[#180D26]">{salon.name} <span className="text-xs text-[#7E22CE]">({salon.branch})</span></h4>
+                        <h4 className="text-base font-bold text-[#180D26]">
+                          {salon.name} <span className="text-xs text-[#7E22CE]">({salon.branch})</span>
+                        </h4>
                       </div>
 
                       <div className="w-8 h-8 rounded-xl bg-white border border-[#A855F7]/25 flex items-center justify-center text-[#9333EA] shrink-0 shadow-sm">
-                        <MapPin className="w-4 h-4" />
+                        <Lock className="w-4 h-4 text-[#DB2777]" />
                       </div>
                     </div>
 
@@ -150,12 +135,10 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
 
                     <div className="flex items-center justify-between text-xs pt-2 border-t border-[#A855F7]/15">
                       <span className="text-[11px] text-[#7E22CE] font-semibold">
-                        인근: {salon.nearestStation}
+                        대표: {salon.directorName} {salon.directorTitle}
                       </span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[11px] text-[#BE185D] font-bold">
-                          ★ {salon.rating} ({salon.reviewCount})
-                        </span>
+                      <div className="flex items-center gap-1 text-[#DB2777] font-bold text-[11px]">
+                        <span>상권 보호 반경 500m</span>
                         <ChevronRight className="w-4 h-4 text-[#8A78A0]" />
                       </div>
                     </div>
@@ -165,21 +148,20 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
             )}
           </div>
 
-          {/* Right Column: Interactive Map Preview + Active Salon Deep Card */}
+          {/* Right Column: Visual Territory Map + Active Salon Details */}
           <div className="lg:col-span-7 rounded-3xl bg-white border border-[#A855F7]/20 p-6 shadow-lg flex flex-col justify-between overflow-hidden">
             {/* Visual Simulated Map Display */}
             <div className="relative w-full h-72 sm:h-80 rounded-2xl bg-gradient-to-br from-[#FAF7FD] to-[#F3E8FC] border border-[#A855F7]/20 overflow-hidden mb-6 flex items-center justify-center">
               {/* Map grid lines */}
               <div className="absolute inset-0 mock-map-grid opacity-60" />
 
-              {/* Graphical Map Roads & Overlay Elements */}
+              {/* Graphical Map Roads */}
               <div className="absolute top-1/3 left-0 right-0 h-4 bg-white/70 transform -rotate-6 shadow-sm pointer-events-none" />
               <div className="absolute top-0 bottom-0 left-1/2 w-4 bg-white/70 transform rotate-12 shadow-sm pointer-events-none" />
 
               {/* Map Pins */}
               {filteredSalons.map((s) => {
-                const isActive = s.id === activeSalon.id;
-                // pseudo positions based on hash
+                const isActive = s.id === activeSalon?.id;
                 const leftPercent = 20 + ((s.id.charCodeAt(s.id.length - 1) * 17) % 65);
                 const topPercent = 20 + ((s.id.charCodeAt(s.id.length - 1) * 23) % 60);
 
@@ -199,30 +181,30 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
                           : 'bg-white text-[#7E22CE] border-[#A855F7]/40'
                       }`}
                     >
-                      <MapPin className="w-3 h-3" />
-                      <span>{s.branch}</span>
+                      <Lock className="w-3 h-3" />
+                      <span>{s.name.split(' ')[0]} (보호구역)</span>
                     </div>
                   </button>
                 );
               })}
 
               {/* Map Controls Floating Badge */}
-              <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#A855F7]/30 text-[11px] font-bold text-[#180D26] shadow-sm flex items-center gap-1.5 z-10">
-                <Navigation className="w-3.5 h-3.5 text-[#DB2777]" />
-                <span>공인 살롱 실시간 위치</span>
+              <div className="absolute top-3 left-3 bg-[#1F0D33] text-white px-3 py-1.5 rounded-xl border border-[#9333EA]/30 text-[11px] font-bold shadow-sm flex items-center gap-1.5 z-10">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#F472B6]" />
+                <span>지역 독점 상권 보호제 운영 현황</span>
               </div>
             </div>
 
-            {/* Detailed Info Card for Currently Selected Salon */}
+            {/* Detailed Info Card for Currently Selected Salon Territory */}
             {activeSalon && (
               <div className="p-5 rounded-2xl bg-[#FAF7FD] border border-[#A855F7]/20 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#A855F7]/15">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/40">
-                        {activeSalon.isCertifiedMaster ? '마스터 공인점' : '공인 인증점'}
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#1F0D33] text-[#F472B6]">
+                        {activeSalon.directorTitle}
                       </span>
-                      <span className="text-xs text-[#5B4870]">원장 {activeSalon.directorName}</span>
+                      <span className="text-xs text-[#5B4870]">{activeSalon.directorName} 원장</span>
                     </div>
                     <h3 className="text-lg font-bold text-[#180D26]">
                       {activeSalon.name} ({activeSalon.branch})
@@ -230,13 +212,8 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
                   </div>
 
                   <div className="text-left sm:text-right">
-                    <span className="text-xs text-[#5B4870] block">대표 번호</span>
-                    <a
-                      href={`tel:${activeSalon.phone}`}
-                      className="text-sm font-bold text-[#7E22CE] hover:text-[#DB2777] transition-colors"
-                    >
-                      {activeSalon.phone}
-                    </a>
+                    <span className="text-[11px] text-[#BE185D] font-bold block">독점 보호 상권 등록 완료</span>
+                    <span className="text-xs text-[#5B4870]">{activeSalon.district} 중심 권역</span>
                   </div>
                 </div>
 
@@ -247,48 +224,40 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
                   </div>
                   <div className="flex items-center gap-2 text-[#5B4870]">
                     <Clock className="w-4 h-4 text-[#9333EA] shrink-0" />
-                    <span>{activeSalon.businessHours} (휴무: {activeSalon.closedDay})</span>
+                    <span>{activeSalon.businessHours}</span>
                   </div>
                 </div>
 
-                {/* Available Programs in this Salon */}
+                {/* Exclusive Services */}
                 <div>
                   <span className="text-[11px] font-bold text-[#7E22CE] uppercase tracking-wider block mb-1.5">
-                    제공 플렉스터치 시술 메뉴
+                    도입 및 운용 중인 플렉스터치 메뉴
                   </span>
                   <div className="flex flex-wrap gap-1.5">
-                    {activeSalon.supportedProgramIds.map((progId, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-[#180D26] border border-[#A855F7]/25"
-                      >
-                        {progId === 'neck-shoulder'
-                          ? '5분 넥숄더 퀵터치'
-                          : progId === 'fascia-lifting'
-                          ? '근막재건 리프팅'
-                          : '뇌청소 두피스파'}
-                      </span>
-                    ))}
+                    <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-[#180D26] border border-[#A855F7]/25">
+                      5분 넥숄더플렉스터치 (시술의자 퀵케어)
+                    </span>
+                    <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-[#180D26] border border-[#A855F7]/25">
+                      15분 근막재건 리프팅 (두피·안면 리셋)
+                    </span>
                   </div>
                 </div>
 
-                {/* Reservation Action Button */}
-                <div className="pt-2 flex items-center gap-3">
-                  <button
-                    onClick={() => onOpenReservation(activeSalon.id)}
-                    className="flex-1 py-3 rounded-xl bg-gradient-to-r from-[#9333EA] via-[#A855F7] to-[#DB2777] text-white font-bold text-xs sm:text-sm shadow-md shadow-pink-900/20 hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <Calendar className="w-4 h-4" />
-                    <span>이 매장으로 시술 예약하기</span>
-                  </button>
+                {/* Territory Application Action Buttons */}
+                <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
                   <a
-                    href={`https://map.naver.com`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-3 rounded-xl bg-white hover:bg-[#F3E8FC] text-[#7E22CE] border border-[#A855F7]/30 transition-colors shadow-sm"
-                    title="네이버 지도에서 보기"
+                    href="#director-signup"
+                    className="w-full sm:flex-1 py-3 rounded-xl bg-gradient-to-r from-[#9333EA] via-[#A855F7] to-[#DB2777] text-white font-bold text-xs sm:text-sm shadow-md shadow-pink-900/20 hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer text-center"
                   >
-                    <ExternalLink className="w-4 h-4" />
+                    <Building className="w-4 h-4" />
+                    <span>우리 매장 지역 독점 상권 가맹 신청하기</span>
+                  </a>
+                  <a
+                    href="#academy"
+                    className="w-full sm:w-auto px-5 py-3 rounded-xl bg-white hover:bg-[#F3E8FC] text-[#7E22CE] font-bold text-xs border border-[#A855F7]/30 transition-colors shadow-sm text-center flex items-center justify-center gap-1.5"
+                  >
+                    <GraduationCap className="w-4 h-4 text-[#DB2777]" />
+                    <span>실습 아카데미 안내</span>
                   </a>
                 </div>
               </div>

@@ -1,14 +1,11 @@
 import React from 'react';
 import { FOUNDER_PROFILE } from '../data/mockData';
 import {
-  Award,
   Sparkles,
   CheckCircle2,
   Quote,
   ShieldCheck,
-  GraduationCap,
-  HeartPulse,
-  Brain
+  GraduationCap
 } from 'lucide-react';
 
 interface FounderSectionProps {
@@ -17,7 +14,7 @@ interface FounderSectionProps {
 
 export const FounderSection: React.FC<FounderSectionProps> = ({ onOpenAcademy }) => {
   return (
-    <section id="founder" className="scroll-mt-20 sm:scroll-mt-24 py-16 lg:py-24 border-b border-[#A855F7]/15 relative bg-[#FAF7FD]">
+    <section id="philosophy" className="scroll-mt-20 sm:scroll-mt-24 py-16 lg:py-24 border-b border-[#A855F7]/15 relative bg-[#FAF7FD]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -26,13 +23,13 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ onOpenAcademy })
             <span>FOUNDER & CLINICAL DIRECTOR</span>
           </div>
           <h2 className="text-2xl sm:text-4xl font-bold text-[#180D26] font-serif-luxury mb-4">
-            한의학 30년 임상 정수와
+            30년 한의학 임상 노하우를 담은
             <span className="block mt-1 text-beauty-gradient">
-              두경부 신경·근막 치료의 대가 정원호 한의사
+              독창적인 메디뷰티 테크닉
             </span>
           </h2>
           <p className="text-sm sm:text-base text-[#5B4870]">
-            단순 마사지를 넘어 인체 해부학과 경혈 순환의 메디컬 원리를 헤어살롱에 완벽하게 이식했습니다.
+            한의사 정원호 대표의 림프근막테크닉과 미용의 융합
           </p>
         </div>
 
@@ -55,7 +52,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ onOpenAcademy })
                   {FOUNDER_PROFILE.name} <span className="text-sm font-normal text-[#E9D5FF]">{FOUNDER_PROFILE.title}</span>
                 </h3>
                 <p className="text-xs text-[#E9D5FF] mt-1">
-                  (주)케이메디플러스 대표이사 & 플렉스터치 총괄 R&D 디렉터
+                  {FOUNDER_PROFILE.company}
                 </p>
               </div>
             </div>
@@ -64,7 +61,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ onOpenAcademy })
             <div className="p-6 rounded-3xl bg-white border border-[#A855F7]/20 shadow-md">
               <h4 className="text-xs font-bold text-[#180D26] uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-[#DB2777]" />
-                <span>주요 약력 및 연구 활동</span>
+                <span>주요 약력 및 전문성</span>
               </h4>
               <ul className="space-y-2 text-xs text-[#5B4870]">
                 {FOUNDER_PROFILE.roles.map((role, idx) => (
@@ -114,8 +111,8 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ onOpenAcademy })
             {/* Direct Lecture CTA */}
             <div className="p-6 rounded-3xl bg-white border border-[#A855F7]/25 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
-                <h4 className="text-sm font-bold text-[#180D26]">정원호 대표 한의사 1:1 직강 신청</h4>
-                <p className="text-xs text-[#5B4870] mt-0.5">매주 월/화 저녁 8시 소수정예 8명 한정 실습</p>
+                <h4 className="text-sm font-bold text-[#180D26]">정원호 대표 1:1 실습 코칭 신청</h4>
+                <p className="text-xs text-[#5B4870] mt-0.5">오직 헤어디자이너를 위한 60분 실습과정 클래스</p>
               </div>
               <button
                 onClick={onOpenAcademy}

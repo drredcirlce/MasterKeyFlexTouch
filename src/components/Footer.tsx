@@ -1,5 +1,6 @@
 import React from 'react';
-import { Key, ShieldCheck, Phone, Mail, MapPin, Award } from 'lucide-react';
+import { Key, ShieldCheck, Phone, Mail, MapPin } from 'lucide-react';
+import { FOOTER_INFO } from '../data/mockData';
 
 export const Footer: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-[11px] leading-relaxed text-[#5B4870]">
-              한의학 30년 임상 철학을 담은 프리미엄 메디뷰티 테크닉. 쇄골·두피·근막을 잇는 독점 플렉스터치로 뷰티 살롱의 혁신을 만듭니다.
+              {FOOTER_INFO.brandDesc}
             </p>
             <div className="flex items-center gap-2 text-[11px] text-[#7E22CE] font-bold">
               <ShieldCheck className="w-4 h-4 text-[#DB2777]" />
@@ -32,13 +33,8 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-1.5 text-[11px]">
               <li>
-                <a href="#brand-story" className="hover:text-[#7E22CE] transition-colors">
+                <a href="#Brand" className="hover:text-[#7E22CE] transition-colors">
                   브랜드 스토리 & 한의학 철학
-                </a>
-              </li>
-              <li>
-                <a href="#founder" className="hover:text-[#7E22CE] transition-colors">
-                  정원호 대표 한의사 프로필
                 </a>
               </li>
               <li>
@@ -53,32 +49,42 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <a href="#academy" className="hover:text-[#7E22CE] transition-colors">
-                  원장님 160분 실습 아카데미
+                  오직 헤어디자이너를 위한 60분 실습과정
+                </a>
+              </li>
+              <li>
+                <a href="#reviews" className="hover:text-[#7E22CE] transition-colors">
+                  실제 시술 후기 & 원장님 수기
+                </a>
+              </li>
+              <li>
+                <a href="#faq" className="hover:text-[#7E22CE] transition-colors">
+                  자주 묻는 질문 FAQ
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Customer & Director Support */}
+          {/* Col 3: Salon Director Support */}
           <div className="space-y-2.5">
             <h4 className="text-xs font-bold text-[#180D26] uppercase tracking-wider">
-              고객 및 원장님 상담센터
+              원장님 가맹 및 교육 상담본부
             </h4>
             <div className="space-y-1.5 text-[11px]">
               <p className="flex items-center gap-1.5">
                 <Phone className="w-3.5 h-3.5 text-[#DB2777]" />
-                <span className="font-bold text-[#180D26]">1544-7890</span> (가맹 및 교육 문의)
+                <span className="font-bold text-[#180D26]">{FOOTER_INFO.phone} / {FOOTER_INFO.mobilePhone}</span>
               </p>
               <p className="flex items-center gap-1.5">
                 <Mail className="w-3.5 h-3.5 text-[#9333EA]" />
-                <span>contact@kmediplus.co.kr</span>
+                <span>{FOOTER_INFO.email}</span>
               </p>
               <p className="flex items-start gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-[#9333EA] shrink-0 mt-0.5" />
-                <span>서울시 영등포구 당산로 123 케이메디빌딩 4F 플렉스터치 R&D센터</span>
+                <span>{FOOTER_INFO.address}</span>
               </p>
               <p className="text-[10px] text-[#8A78A0] pt-1">
-                운영시간: 평일 09:00 ~ 18:00 (점심시간 12:30 ~ 13:30)
+                상담시간: {FOOTER_INFO.hours}
               </p>
             </div>
           </div>
@@ -89,17 +95,17 @@ export const Footer: React.FC = () => {
               사업자 정보 & 메디컬 고지
             </h4>
             <p className="text-[10px] leading-relaxed text-[#8A78A0]">
-              상호명: (주)케이메디플러스 | 대표자: 정원호 | 사업자등록번호: 120-81-99882
+              상호명: {FOOTER_INFO.companyName} | 대표자: {FOOTER_INFO.ceo}
               <br />
-              통신판매업신고: 제2026-서울영등포-0812호
+              사업자등록번호: {FOOTER_INFO.businessNumber} | 통신판매업: {FOOTER_INFO.telecomNumber}
               <br />
-              본 서비스는 미용 관리 및 한의학적 근막 이완 테크닉을 활용하며, 질병의 진단 및 치료를 목적으로 하는 의료 행위가 아닙니다.
+              {FOOTER_INFO.disclaimer}
             </p>
           </div>
         </div>
 
         <div className="pt-6 border-t border-[#A855F7]/15 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-[#8A78A0]">
-          <p>© 2026 (주)케이메디플러스 MASTERKEY FLEXTOUCH. All rights reserved.</p>
+          <p>{FOOTER_INFO.copyright}</p>
           <div className="flex items-center gap-4">
             <a href="#" className="hover:text-[#180D26]">이용약관</a>
             <a href="#" className="hover:text-[#180D26]">개인정보처리방침</a>

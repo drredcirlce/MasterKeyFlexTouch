@@ -3,7 +3,6 @@ import { ACADEMY_INFO } from '../data/mockData';
 import { AcademyApplicationData } from '../types';
 import {
   GraduationCap,
-  Sparkles,
   Calendar,
   Clock,
   MapPin,
@@ -12,8 +11,6 @@ import {
   Award,
   BookOpen,
   Send,
-  Building,
-  Phone,
   ShieldCheck,
   TrendingUp
 } from 'lucide-react';
@@ -33,14 +30,9 @@ export const AcademySection: React.FC<AcademySectionProps> = ({
   const [salonName, setSalonName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [businessNumber, setBusinessNumber] = useState('');
   const [region, setRegion] = useState('서울/수도권');
-  const [address, setAddress] = useState('');
   const [trainingType, setTrainingType] = useState<'regular_academy' | 'visit_1on1' | 'group_seminar'>('regular_academy');
-  const [preferredDay, setPreferredDay] = useState<string>('매주 월요일 정기반');
-  const [chairCount, setChairCount] = useState<number>(3);
-  const [designerCount, setDesignerCount] = useState<number>(2);
-  const [currentScalpMenu, setCurrentScalpMenu] = useState<'none' | 'basic' | 'premium'>('basic');
+  const [preferredDay, setPreferredDay] = useState<string>('1기 주말 집중반 (토요일 14:00)');
   const [inquiry, setInquiry] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -55,16 +47,11 @@ export const AcademySection: React.FC<AcademySectionProps> = ({
       id: `ACAD-${Date.now()}`,
       directorName,
       salonName,
-      businessNumber,
       region,
-      address,
       phone,
       email,
       trainingType,
       preferredDay,
-      chairCount,
-      designerCount,
-      currentScalpMenu,
       inquiry,
       submittedAt: new Date().toISOString(),
       status: 'submitted',
@@ -86,24 +73,24 @@ export const AcademySection: React.FC<AcademySectionProps> = ({
           </div>
           <h2 className="text-2xl sm:text-4xl font-bold text-[#180D26] font-serif-luxury mb-4">
             {ACADEMY_INFO.title}
-            <span className="block mt-1 text-beauty-gradient">
-              {ACADEMY_INFO.subtitle}
-            </span>
           </h2>
-          <p className="text-sm sm:text-base text-[#5B4870]">
-            {ACADEMY_INFO.description}
+          <p className="text-sm sm:text-base text-[#7E22CE] font-semibold max-w-2xl mx-auto mb-2">
+            {ACADEMY_INFO.subtitle}
+          </p>
+          <p className="text-xs sm:text-sm text-[#5B4870]">
+            참가 대상: {ACADEMY_INFO.targetAudience} · 교육 장소: {ACADEMY_INFO.venue}
           </p>
         </div>
 
         {/* 2-Column Split: Curriculum & Schedules vs Application Form */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
-          {/* Left Column: Schedules & 160-Min Curriculum */}
+          {/* Left Column: Schedules & 60-Min Curriculum */}
           <div className="lg:col-span-6 space-y-6">
             {/* Schedules Card */}
             <div className="rounded-3xl bg-[#1F0D33] border border-[#9333EA]/30 p-6 sm:p-8 text-white shadow-xl">
               <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#9333EA]/30">
                 <Calendar className="w-5 h-5 text-[#F472B6]" />
-                <h3 className="text-base font-bold text-white">정기 교육 일정 & 실습장소</h3>
+                <h3 className="text-base font-bold text-white">교육 일정 & 실습장소 안내</h3>
               </div>
 
               <div className="space-y-4">
@@ -131,9 +118,12 @@ export const AcademySection: React.FC<AcademySectionProps> = ({
 
             {/* Curriculum Breakdown */}
             <div className="rounded-3xl bg-white border border-[#A855F7]/20 p-6 sm:p-8 shadow-md space-y-5">
-              <div className="flex items-center gap-2 pb-3 border-b border-[#A855F7]/15">
-                <BookOpen className="w-5 h-5 text-[#7E22CE]" />
-                <h3 className="text-base font-bold text-[#180D26]">160분 초밀착 실습 커리큘럼</h3>
+              <div className="flex items-center justify-between pb-3 border-b border-[#A855F7]/15">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-[#7E22CE]" />
+                  <h3 className="text-base font-bold text-[#180D26]">60분 실습 커리큘럼 (모듈 1·2·3)</h3>
+                </div>
+                <span className="text-xs text-[#DB2777] font-bold">1:1 핸즈온 코칭</span>
               </div>
 
               <div className="space-y-4">
@@ -145,7 +135,7 @@ export const AcademySection: React.FC<AcademySectionProps> = ({
                       </span>
                       <span className="text-xs font-semibold text-[#7E22CE]">{curr.badge}</span>
                     </div>
-                    <h4 className="text-xs font-bold text-[#180D26]">{curr.title}</h4>
+                    <h4 className="text-xs sm:text-sm font-bold text-[#180D26]">{curr.title}</h4>
                     <ul className="space-y-1 text-xs text-[#5B4870]">
                       {curr.items.map((item, iIdx) => (
                         <li key={iIdx} className="flex items-start gap-2">
@@ -157,16 +147,6 @@ export const AcademySection: React.FC<AcademySectionProps> = ({
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* 4 Benefits */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {ACADEMY_INFO.benefits.map((bnf, idx) => (
-                <div key={idx} className="p-4 rounded-2xl bg-white border border-[#A855F7]/20 shadow-sm">
-                  <h4 className="text-xs font-bold text-[#180D26] mb-1">{bnf.title}</h4>
-                  <p className="text-[11px] text-[#5B4870]">{bnf.desc}</p>
-                </div>
-              ))}
             </div>
           </div>
 
@@ -254,9 +234,7 @@ export const AcademySection: React.FC<AcademySectionProps> = ({
                       <option value="서울/수도권">서울/수도권</option>
                       <option value="경기/인천">경기/인천</option>
                       <option value="부산/경남">부산/경남</option>
-                      <option value="대구/경북">대구/경북</option>
-                      <option value="대전/충청">대전/충청</option>
-                      <option value="광주/전라">광주/전라</option>
+                      <option value="기타">기타 지역</option>
                     </select>
                   </div>
                 </div>
@@ -270,9 +248,8 @@ export const AcademySection: React.FC<AcademySectionProps> = ({
                     onChange={(e) => setTrainingType(e.target.value as any)}
                     className="w-full p-2.5 rounded-xl bg-[#FAF7FD] border border-[#A855F7]/25 text-[#180D26] text-xs focus:outline-none focus:border-[#DB2777]"
                   >
-                    <option value="regular_academy">정기 아카데미 (매주 월/화 저녁 8시 160분 과정)</option>
+                    <option value="regular_academy">60분 실습과정 (서울아카데미 직강)</option>
                     <option value="visit_1on1">원장님 샵 방문 1:1 핸즈온 교육</option>
-                    <option value="group_seminar">지회/단체 살롱 초청 특별 세미나</option>
                   </select>
                 </div>
 
@@ -285,21 +262,21 @@ export const AcademySection: React.FC<AcademySectionProps> = ({
                     onChange={(e) => setPreferredDay(e.target.value)}
                     className="w-full p-2.5 rounded-xl bg-[#FAF7FD] border border-[#A855F7]/25 text-[#180D26] text-xs focus:outline-none focus:border-[#DB2777]"
                   >
-                    <option value="매주 월요일 정기반">매주 월요일 정기반 (저녁 20:00~22:40)</option>
-                    <option value="매주 화요일 정기반">매주 화요일 정기반 (저녁 20:00~22:40)</option>
-                    <option value="방문일정조율">방문일정 개별 조율</option>
+                    <option value="1기 주말 집중반 (토요일 14:00)">1기 주말 집중반 (토요일 14:00 ~ 15:00)</option>
+                    <option value="1기 평일 정규반 (화요일 20:00)">1기 평일 정규반 (화요일 20:00 ~ 21:00)</option>
+                    <option value="방문일정조율">지방/살롱 방문일정 개별 조율</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-[#180D26] mb-1.5">
-                    추가 문의사항 또는 고민 (선택)
+                    추가 문의사항 또는 메모 (선택)
                   </label>
                   <textarea
                     rows={2}
                     value={inquiry}
                     onChange={(e) => setInquiry(e.target.value)}
-                    placeholder="예: 손목 통증 없이 시술하는 법이 가장 궁금합니다. 디자이너 2명과 함께 참석 가능한가요?"
+                    placeholder="예: 매장 디자이너와 함께 참석 가능한가요? 문의사항을 적어주세요."
                     className="w-full p-2.5 rounded-xl bg-[#FAF7FD] border border-[#A855F7]/25 text-[#180D26] text-xs placeholder-[#8A78A0] focus:outline-none focus:border-[#DB2777]"
                   />
                 </div>
@@ -313,6 +290,32 @@ export const AcademySection: React.FC<AcademySectionProps> = ({
                 </button>
               </form>
             )}
+          </div>
+        </div>
+
+        {/* 6 Core Franchise Benefits Grid */}
+        <div className="mt-12 pt-8 border-t border-[#A855F7]/20">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#DB2777] block mb-1">
+              FRANCHISE PARTNERSHIP BENEFITS
+            </span>
+            <h3 className="text-xl sm:text-2xl font-bold text-[#180D26] font-serif-luxury">
+              마스터키 플렉스터치 가맹 헤어샵 6대 특전
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {ACADEMY_INFO.benefits.map((bnf, idx) => (
+              <div key={idx} className="p-5 rounded-2xl bg-white border border-[#A855F7]/20 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="w-8 h-8 rounded-xl bg-[#FCE7F3] text-[#BE185D] flex items-center justify-center text-xs font-bold mb-3">
+                    0{idx + 1}
+                  </div>
+                  <h4 className="text-xs sm:text-sm font-bold text-[#180D26] mb-1.5">{bnf.title}</h4>
+                  <p className="text-xs text-[#5B4870] leading-relaxed">{bnf.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

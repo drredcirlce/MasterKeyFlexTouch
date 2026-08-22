@@ -5,7 +5,8 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: '/',
+    // GitHub Pages repository subpath support
+    base: process.env.GITHUB_PAGES === 'true' ? '/MasterKeyFlexTouch/' : './',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

@@ -1,128 +1,140 @@
 import React, { useState } from 'react';
 import { Review } from '../types';
-import { Star, MessageSquare, Quote, Sparkles, UserCheck, Heart } from 'lucide-react';
+import {
+  Star,
+  Sparkles,
+  CheckCircle2,
+  Quote,
+  Heart,
+  MessageSquare,
+  ThumbsUp,
+  User
+} from 'lucide-react';
 
 interface ReviewsSectionProps {
   reviews: Review[];
 }
 
 export const ReviewsSection: React.FC<ReviewsSectionProps> = ({ reviews }) => {
-  const [filterRole, setFilterRole] = useState<'all' | 'customer' | 'director'>('all');
+  const [filter, setFilter] = useState<'all' | 'customer' | 'director'>('all');
 
-  const filteredReviews = filterRole === 'all'
-    ? reviews
-    : reviews.filter((r) => r.authorRole === filterRole);
+  const filteredReviews =
+    filter === 'all' ? reviews : reviews.filter((r) => r.authorRole === filter);
 
   return (
-    <section id="reviews" className="scroll-mt-20 sm:scroll-mt-24 py-16 lg:py-24 border-b border-[var(--border)] relative bg-[var(--bg)]">
+    <section id="reviews" className="scroll-mt-20 sm:scroll-mt-24 py-16 lg:py-24 border-b border-[#A855F7]/15 relative bg-[#FAF7FD]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--gold)]/10 border border-[var(--gold)]/30 text-[var(--gold)] text-xs font-bold mb-3">
-            <MessageSquare className="w-3.5 h-3.5 text-[var(--gold)]" />
-            <span>REAL VERIFIED EXPERIENCES</span>
+          <div className="hero-badge-dark inline-flex items-center gap-2 mb-3">
+            <Star className="w-3.5 h-3.5 text-[#DB2777]" />
+            <span>VERIFIED CLINICAL TESTIMONIALS</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white font-serif-luxury mb-3">
-            고객과 원장님이 증명하는
-            <span className="block mt-1 text-gold-gradient">
-              즉각적인 체감과 매출 혁신
+          <h2 className="text-2xl sm:text-4xl font-bold text-[#180D26] font-serif-luxury mb-4">
+            실제 시술 고객 & 원장님들의
+            <span className="block mt-1 text-beauty-gradient">
+              100% 생생한 리얼 체감 후기
             </span>
           </h2>
-          <p className="text-sm sm:text-base text-[var(--text-muted)] font-light">
-            시술 즉시 느껴지는 압도적인 가벼움과 살롱 원장님의 객단가 2배 상승 실화
+          <p className="text-sm sm:text-base text-[#5B4870]">
+            시술 즉시 목이 가벼워지고 얼굴 선이 살아나는 기적, 전국 가맹 살롱의 검증된 후기를 확인하세요.
           </p>
         </div>
 
-        {/* Tab Filters */}
-        <div className="flex justify-center gap-2 mb-10">
-          <button
-            onClick={() => setFilterRole('all')}
-            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-              filterRole === 'all'
-                ? 'bg-gold-gradient text-stone-950 shadow-md shadow-[var(--gold)]/20 font-bold'
-                : 'bg-[#121212] text-[var(--text-muted)] hover:text-white border border-[var(--border)]'
-            }`}
-          >
-            전체 생생 후기 ({reviews.length})
-          </button>
-          <button
-            onClick={() => setFilterRole('customer')}
-            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-              filterRole === 'customer'
-                ? 'bg-gold-gradient text-stone-950 shadow-md shadow-[var(--gold)]/20 font-bold'
-                : 'bg-[#121212] text-[var(--text-muted)] hover:text-white border border-[var(--border)]'
-            }`}
-          >
-            시술 고객 리얼 후기
-          </button>
-          <button
-            onClick={() => setFilterRole('director')}
-            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-              filterRole === 'director'
-                ? 'bg-gold-gradient text-stone-950 shadow-md shadow-[var(--gold)]/20 font-bold'
-                : 'bg-[#121212] text-[var(--text-muted)] hover:text-white border border-[var(--border)]'
-            }`}
-          >
-            헤어살롱 원장님 도입 후기
-          </button>
+        {/* Filter Toggle Buttons */}
+        <div className="flex justify-center mb-10">
+          <div className="p-1 rounded-2xl bg-white border border-[#A855F7]/25 shadow-sm flex items-center">
+            <button
+              onClick={() => setFilter('all')}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                filter === 'all'
+                  ? 'bg-gradient-to-r from-[#9333EA] to-[#DB2777] text-white shadow-md shadow-pink-900/20'
+                  : 'text-[#5B4870] hover:text-[#180D26]'
+              }`}
+            >
+              전체 후기 ({reviews.length})
+            </button>
+            <button
+              onClick={() => setFilter('customer')}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                filter === 'customer'
+                  ? 'bg-gradient-to-r from-[#9333EA] to-[#DB2777] text-white shadow-md shadow-pink-900/20'
+                  : 'text-[#5B4870] hover:text-[#180D26]'
+              }`}
+            >
+              시술 고객 리얼 후기
+            </button>
+            <button
+              onClick={() => setFilter('director')}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                filter === 'director'
+                  ? 'bg-gradient-to-r from-[#9333EA] to-[#DB2777] text-white shadow-md shadow-pink-900/20'
+                  : 'text-[#5B4870] hover:text-[#180D26]'
+              }`}
+            >
+              수료 원장님 매장 후기
+            </button>
+          </div>
         </div>
 
         {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredReviews.map((rev) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {filteredReviews.map((review) => (
             <div
-              key={rev.id}
-              className={`p-6 rounded-2xl border flex flex-col justify-between transition-all duration-300 ${
-                rev.authorRole === 'director'
-                  ? 'bg-gradient-to-b from-[#18150c] via-[#121212] to-[#0d0d0d] border-[var(--gold)]/50 shadow-lg shadow-[var(--gold)]/5'
-                  : 'bg-[#121212] border-[var(--border)] hover:border-[var(--gold)]/30'
-              }`}
+              key={review.id}
+              className="p-6 rounded-3xl bg-white border border-[#A855F7]/20 hover:border-[#DB2777]/50 shadow-md hover:shadow-xl transition-all flex flex-col justify-between"
             >
               <div>
-                {/* Rating & Author Header */}
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-1">
-                    {[...Array(rev.rating)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-[var(--gold)] text-[var(--gold)]" />
+                {/* Review Header: User Info & Rating */}
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-bold text-sm text-[#180D26]">{review.authorName}</span>
+                      <span
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          review.authorRole === 'director'
+                            ? 'bg-[#1F0D33] text-[#F472B6]'
+                            : 'bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/40'
+                        }`}
+                      >
+                        {review.authorRole === 'director' ? '공인인증 원장' : '실제 시술 고객'}
+                      </span>
+                    </div>
+                    <span className="text-xs text-[#5B4870]">{review.salonName}</span>
+                  </div>
+
+                  {/* Stars */}
+                  <div className="flex items-center text-amber-500">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
                     ))}
                   </div>
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                    rev.authorRole === 'director'
-                      ? 'bg-[var(--gold)] text-stone-950 font-bold'
-                      : 'bg-[#1c1c1c] text-slate-300 border border-[var(--border)]'
-                  }`}>
-                    {rev.authorRole === 'director' ? '원장님 도입 수기' : '고객 시술 후기'}
+                </div>
+
+                {/* Program Tag */}
+                <div className="mb-3">
+                  <span className="text-[11px] font-semibold text-[#7E22CE] bg-[#FAF7FD] px-2.5 py-1 rounded-md border border-[#A855F7]/20">
+                    시술: {review.programName}
                   </span>
                 </div>
 
-                {/* Highlight Quote */}
-                <h4 className="text-sm sm:text-base font-bold text-white mb-2 leading-snug">
-                  "{rev.highlight}"
-                </h4>
-
-                {/* Content */}
-                <p className="text-xs text-slate-300 leading-relaxed mb-4">
-                  {rev.content}
+                {/* Comment */}
+                <p className="text-xs sm:text-sm text-[#5B4870] leading-relaxed mb-4">
+                  "{review.content}"
                 </p>
+
+                {/* Highlight Quote Box */}
+                <div className="p-3 rounded-2xl bg-[#FAF7FD] border border-[#A855F7]/15 text-xs text-[#BE185D] font-bold">
+                  "{review.highlight}"
+                </div>
               </div>
 
-              {/* Footer Meta */}
-              <div className="pt-4 border-t border-[var(--border)]">
-                <div className="flex items-center justify-between text-xs mb-2">
-                  <span className="font-bold text-slate-200">{rev.authorName}</span>
-                  <span className="text-[var(--text-muted)] text-[11px]">{rev.date}</span>
-                </div>
-                <div className="text-[11px] text-[var(--gold)] truncate mb-2">
-                  {rev.salonName} · {rev.programName}
-                </div>
-
-                {/* Tag pills */}
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  {rev.tags.map((t, idx) => (
-                    <span key={idx} className="text-[10px] px-2 py-0.5 rounded bg-[#1c1c1c] text-[var(--text-muted)] border border-[#262626]">
-                      #{t}
-                    </span>
-                  ))}
+              {/* Review Footer */}
+              <div className="pt-4 mt-4 border-t border-[#A855F7]/15 flex items-center justify-between text-xs text-[#8A78A0]">
+                <span>{review.date}</span>
+                <div className="flex items-center gap-1 text-[#7E22CE]">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>인증된 실제 후기</span>
                 </div>
               </div>
             </div>

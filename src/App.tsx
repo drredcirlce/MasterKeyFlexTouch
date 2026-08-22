@@ -125,7 +125,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-[#F2F2F2] selection:bg-[#D4AF37]/30 selection:text-[#fae69e]">
+    <div className="min-h-screen bg-[#FAF7FD] text-[#180D26] selection:bg-[#F3E8FC] selection:text-[#7E22CE]">
       {/* Universal Header */}
       <Header
         onOpenReservation={handleOpenReservation}
@@ -186,9 +186,9 @@ export default function App() {
         />
       </main>
 
-      {/* Sophisticated Dark Academy Gold Ribbon */}
-      <div className="h-10 bg-[#D4AF37] text-[#080808] flex items-center justify-center px-4 text-xs font-bold tracking-wider uppercase text-center shadow-lg">
-        <span>매주 월/화 저녁 8시 덕수한의원 실습실 정기 교육 진행 중 • 원장님 전용 1:1 방문 맞춤 강의 신청 가능</span>
+      {/* Elegant Medical Purple-Pink Notice Ribbon */}
+      <div className="py-2.5 bg-gradient-to-r from-[#9333EA] via-[#A855F7] to-[#DB2777] text-white flex items-center justify-center px-4 text-xs font-bold tracking-wider text-center shadow-md">
+        <span>매주 월/화 저녁 8시 (주)케이메디플러스 실습실 정기 교육 진행 중 • 원장님 전용 1:1 방문 맞춤 강의 신청 가능</span>
       </div>
 
       {/* Footer */}

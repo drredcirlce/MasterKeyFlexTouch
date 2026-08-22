@@ -1,6 +1,15 @@
 import React from 'react';
 import { FOUNDER_PROFILE } from '../data/mockData';
-import { Award, GraduationCap, ShieldCheck, Stethoscope, CheckCircle, ArrowRight, UserCheck } from 'lucide-react';
+import {
+  Award,
+  Sparkles,
+  CheckCircle2,
+  Quote,
+  ShieldCheck,
+  GraduationCap,
+  HeartPulse,
+  Brain
+} from 'lucide-react';
 
 interface FounderSectionProps {
   onOpenAcademy: () => void;
@@ -8,134 +17,111 @@ interface FounderSectionProps {
 
 export const FounderSection: React.FC<FounderSectionProps> = ({ onOpenAcademy }) => {
   return (
-    <section id="founder" className="scroll-mt-20 sm:scroll-mt-24 py-16 lg:py-24 border-b border-[#D4AF37]/20 relative bg-[#080808]">
+    <section id="founder" className="scroll-mt-20 sm:scroll-mt-24 py-16 lg:py-24 border-b border-[#A855F7]/15 relative bg-[#FAF7FD]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        {/* Section Title */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="hero-badge-dark inline-flex items-center gap-2 mb-3">
-            <Stethoscope className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>MASTER INSTRUCTOR PROFILE</span>
+            <GraduationCap className="w-3.5 h-3.5 text-[#DB2777]" />
+            <span>FOUNDER & CLINICAL DIRECTOR</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-normal text-[#F2F2F2] font-serif-luxury mb-4">
-            한의사가 직접 연구하고 교육하는
-            <span className="block mt-1 text-gold-gradient">
-              독보적인 메디컬 뷰티 테크닉
+          <h2 className="text-2xl sm:text-4xl font-bold text-[#180D26] font-serif-luxury mb-4">
+            한의학 30년 임상 정수와
+            <span className="block mt-1 text-beauty-gradient">
+              두경부 신경·근막 치료의 대가 정원호 한의사
             </span>
           </h2>
-          <p className="text-sm sm:text-base text-[#888888] font-light">
-            임상 20년의 통증치료 노하우와 근막 해부학을 헤어살롱 실무에 최적화하여 보급합니다.
+          <p className="text-sm sm:text-base text-[#5B4870]">
+            단순 마사지를 넘어 인체 해부학과 경혈 순환의 메디컬 원리를 헤어살롱에 완벽하게 이식했습니다.
           </p>
         </div>
 
-        {/* Profile Grid Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Profile Card & Photo Visual */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative rounded-xl overflow-hidden bg-[#121212] border border-[#D4AF37]/30 p-1 shadow-2xl group">
-              <div className="relative aspect-[4/5] rounded-lg overflow-hidden bg-[#161616]">
-                <img
-                  src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80"
-                  alt="안덕수 한의사 대표이사"
-                  className="w-full h-full object-cover object-center filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-500 opacity-75"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/40 to-transparent" />
-
-                {/* Overlaid Badges */}
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="p-4 rounded-lg bg-[#121212]/95 border border-[#D4AF37]/40 backdrop-blur-md">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-lg font-bold text-[#F2F2F2] font-serif-luxury">안덕수 한의사</span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#D4AF37] text-[#080808] uppercase tracking-wider">
-                        HEAD INSTRUCTOR
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#D4AF37] font-medium">
-                      (주)케이메디플러스 대표이사 / 덕수한의원 공동원장
-                    </p>
-                  </div>
-                </div>
+        {/* 2-Column Profile Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
+          {/* Left Column: Photo & Key Roles Badge */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="relative rounded-3xl overflow-hidden border border-[#A855F7]/30 shadow-xl bg-white group">
+              <img
+                src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80"
+                alt="정원호 대표 한의사"
+                referrerPolicy="no-referrer"
+                className="w-full h-80 sm:h-96 object-cover object-top transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#180D26]/90 via-[#180D26]/30 to-transparent flex flex-col justify-end p-6 text-white">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#F472B6] mb-1">
+                  MASTERKEY FOUNDER
+                </span>
+                <h3 className="text-2xl font-bold font-serif-luxury text-white">
+                  {FOUNDER_PROFILE.name} <span className="text-sm font-normal text-[#E9D5FF]">{FOUNDER_PROFILE.title}</span>
+                </h3>
+                <p className="text-xs text-[#E9D5FF] mt-1">
+                  (주)케이메디플러스 대표이사 & 플렉스터치 총괄 R&D 디렉터
+                </p>
               </div>
             </div>
 
-            {/* Credential Floating Tag */}
-            <div className="absolute -top-3 -right-3 sm:top-4 sm:-right-4 bg-[#121212] border border-[#D4AF37]/60 rounded-lg p-3 shadow-xl backdrop-blur-md flex items-center gap-3">
-              <div className="w-10 h-10 rounded bg-[#D4AF37]/15 border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37]">
-                <GraduationCap className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="block text-xs font-bold text-[#F2F2F2]">R7 통증전문</span>
-                <span className="text-[11px] text-[#888888]">수석 교육강사 직강</span>
-              </div>
+            {/* Credential List Card */}
+            <div className="p-6 rounded-3xl bg-white border border-[#A855F7]/20 shadow-md">
+              <h4 className="text-xs font-bold text-[#180D26] uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-[#DB2777]" />
+                <span>주요 약력 및 연구 활동</span>
+              </h4>
+              <ul className="space-y-2 text-xs text-[#5B4870]">
+                {FOUNDER_PROFILE.roles.map((role, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#7E22CE] shrink-0 mt-0.5" />
+                    <span>{role}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
-          {/* Profile Bio & Philosophy */}
+          {/* Right Column: Medical Philosophy & Core Values */}
           <div className="lg:col-span-7 space-y-6">
-            {/* Roles List */}
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">주요 약력 및 경력</span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {FOUNDER_PROFILE.roles.map((role, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-2 p-2.5 rounded bg-[#121212] border border-[#262626] text-xs text-[#CCCCCC] font-medium"
-                  >
-                    <CheckCircle className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
-                    <span>{role}</span>
-                  </div>
-                ))}
+            {/* Dark Accent Quote Box */}
+            <div className="rounded-3xl bg-[#1F0D33] border border-[#9333EA]/30 p-6 sm:p-8 text-white shadow-xl">
+              <div className="flex items-center gap-2 mb-4 text-[#F472B6]">
+                <Quote className="w-6 h-6" />
+                <span className="text-xs font-bold uppercase tracking-wider">임상 철학 메시지</span>
+              </div>
+              <blockquote className="text-base sm:text-lg font-serif-luxury text-white leading-relaxed mb-4">
+                {FOUNDER_PROFILE.quote}
+              </blockquote>
+              <div className="text-xs sm:text-sm text-[#E9D5FF] leading-relaxed whitespace-pre-line border-t border-[#9333EA]/30 pt-4">
+                {FOUNDER_PROFILE.story}
               </div>
             </div>
 
-            {/* Quote Block */}
-            <div className="p-5 rounded-lg bg-[#121212] border-l-2 border-[#D4AF37] text-[#CCCCCC]">
-              <p className="text-sm sm:text-base font-normal italic text-[#fae69e] leading-relaxed font-serif-luxury">
-                {FOUNDER_PROFILE.quote}
-              </p>
-            </div>
-
-            {/* Story Text */}
-            <div className="text-xs sm:text-sm text-[#888888] leading-relaxed space-y-3">
-              {FOUNDER_PROFILE.story.split('\n\n').map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
+            {/* 3 Core Values Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {FOUNDER_PROFILE.coreValues.map((val, idx) => (
+                <div
+                  key={idx}
+                  className="p-5 rounded-3xl bg-white border border-[#A855F7]/20 shadow-md flex flex-col justify-between"
+                >
+                  <div>
+                    <span className="w-7 h-7 rounded-xl bg-[#FCE7F3] text-[#BE185D] text-xs font-bold flex items-center justify-center mb-3">
+                      0{idx + 1}
+                    </span>
+                    <h4 className="text-xs font-bold text-[#180D26] mb-1.5">{val.title}</h4>
+                    <p className="text-[11px] text-[#5B4870] leading-relaxed">{val.desc}</p>
+                  </div>
+                </div>
               ))}
             </div>
 
-            {/* 3 Core Values */}
-            <div className="pt-2">
-              <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider block mb-3">
-                플렉스터치 3대 핵심 가치
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {FOUNDER_PROFILE.coreValues.map((val, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3.5 rounded-lg bg-[#121212] border border-[#D4AF37]/20 flex flex-col justify-between"
-                  >
-                    <h5 className="text-xs font-bold text-[#F2F2F2] mb-1.5 flex items-center gap-1.5 font-serif-luxury">
-                      <span className="w-4 h-4 rounded-full bg-[#D4AF37]/20 text-[#D4AF37] text-[10px] flex items-center justify-center font-bold">
-                        {idx + 1}
-                      </span>
-                      {val.title}
-                    </h5>
-                    <p className="text-[11px] text-[#888888] leading-relaxed">
-                      {val.desc}
-                    </p>
-                  </div>
-                ))}
+            {/* Direct Lecture CTA */}
+            <div className="p-6 rounded-3xl bg-white border border-[#A855F7]/25 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h4 className="text-sm font-bold text-[#180D26]">정원호 대표 한의사 1:1 직강 신청</h4>
+                <p className="text-xs text-[#5B4870] mt-0.5">매주 월/화 저녁 8시 소수정예 8명 한정 실습</p>
               </div>
-            </div>
-
-            {/* CTA Button */}
-            <div className="pt-2">
               <button
-                id="founder-academy-cta"
                 onClick={onOpenAcademy}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded text-xs font-bold uppercase tracking-wider bg-[#D4AF37] text-[#080808] hover:bg-[#e5c158] shadow-md shadow-[#D4AF37]/20 cursor-pointer transition-all"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#9333EA] to-[#DB2777] text-white text-xs font-bold shadow-md shadow-pink-900/20 whitespace-nowrap cursor-pointer hover:opacity-95 transition-opacity"
               >
-                <UserCheck className="w-4 h-4" />
-                <span>한의사 대표 직강 아카데미 일정 확인하기</span>
-                <ArrowRight className="w-4 h-4" />
+                실습 아카데미 안내 보기
               </button>
             </div>
           </div>

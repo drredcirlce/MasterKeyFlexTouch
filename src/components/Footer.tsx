@@ -1,77 +1,109 @@
 import React from 'react';
-import { Key, ShieldCheck, Phone, Mail, MapPin, Sparkles } from 'lucide-react';
+import { Key, ShieldCheck, Phone, Mail, MapPin, Award } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#050505] text-[var(--text-muted)] text-xs border-t border-[var(--border)] pt-16 pb-24 lg:pb-16">
+    <footer className="bg-white border-t border-[#A855F7]/18 text-[#5B4870] pt-12 pb-20 sm:pb-12 text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[var(--border)]">
-          {/* Brand Col */}
-          <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[var(--gold)]/20 border border-[var(--gold)]/40 flex items-center justify-center text-[var(--gold)]">
-                <Key className="w-4 h-4" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+          {/* Col 1: Brand & Corp Info */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#F3E8FC] to-[#FCE7F3] border border-[#A855F7]/30 flex items-center justify-center">
+                <Key className="w-4 h-4 text-[#9333EA]" />
               </div>
-              <span className="text-base font-extrabold text-white tracking-wider font-serif-luxury">
-                MASTERKEY FLEXTOUCH
+              <span className="text-base font-bold font-serif-luxury text-[#180D26] tracking-wider">
+                MASTERKEY <span className="text-xs text-[#BE185D]">FLEXTOUCH</span>
               </span>
             </div>
-            <p className="text-xs text-[var(--text-muted)] leading-relaxed max-w-sm">
-              쇄골부터 두피까지, 뭉침을 풀고 흐름을 열어 즉시 체감되는 가벼움.
-              <br />
-              한의학 근막 이론 기반 프리미엄 살롱 메디뷰티 전문 브랜드
+            <p className="text-[11px] leading-relaxed text-[#5B4870]">
+              한의학 30년 임상 철학을 담은 프리미엄 메디뷰티 테크닉. 쇄골·두피·근막을 잇는 독점 플렉스터치로 뷰티 살롱의 혁신을 만듭니다.
             </p>
-            <div className="flex items-center gap-2 pt-1 text-[11px] text-[var(--gold)] font-medium">
-              <ShieldCheck className="w-3.5 h-3.5 text-[var(--gold)]" />
-              <span>(주)케이메디플러스 & 덕수한의원 공동 R&D 공식 테크닉</span>
+            <div className="flex items-center gap-2 text-[11px] text-[#7E22CE] font-bold">
+              <ShieldCheck className="w-4 h-4 text-[#DB2777]" />
+              <span>(주)케이메디플러스 공식 인증 브랜드</span>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="md:col-span-3 space-y-2.5">
-            <span className="text-xs font-bold text-white uppercase tracking-wider block mb-3">
-              주요 프로그램 및 서비스
-            </span>
-            <ul className="space-y-2 text-[var(--text-muted)]">
-              <li><a href="#programs" className="hover:text-[var(--gold)] transition-colors">마스터키 넥숄더 플렉스터치 (5분 퀵케어)</a></li>
-              <li><a href="#programs" className="hover:text-[var(--gold)] transition-colors">마스터키 근막재건 리프팅 (두피·안면)</a></li>
-              <li><a href="#programs" className="hover:text-[var(--gold)] transition-colors">뇌청소 두피 디톡스 (딥슬립 테라피)</a></li>
-              <li><a href="#salons" className="hover:text-[var(--gold)] transition-colors">전국 가맹 헤어샵 위치 및 실시간 예약</a></li>
-              <li><a href="#academy" className="hover:text-[var(--gold)] transition-colors">헤어 원장님 정기 실습 아카데미</a></li>
+          {/* Col 2: Quick Links */}
+          <div className="space-y-2.5">
+            <h4 className="text-xs font-bold text-[#180D26] uppercase tracking-wider">
+              바로가기
+            </h4>
+            <ul className="space-y-1.5 text-[11px]">
+              <li>
+                <a href="#brand-story" className="hover:text-[#7E22CE] transition-colors">
+                  브랜드 스토리 & 한의학 철학
+                </a>
+              </li>
+              <li>
+                <a href="#founder" className="hover:text-[#7E22CE] transition-colors">
+                  정원호 대표 한의사 프로필
+                </a>
+              </li>
+              <li>
+                <a href="#programs" className="hover:text-[#7E22CE] transition-colors">
+                  5분 넥숄더 & 근막 리프팅 시술
+                </a>
+              </li>
+              <li>
+                <a href="#salons" className="hover:text-[#7E22CE] transition-colors">
+                  전국 공인인증 가맹점 지도
+                </a>
+              </li>
+              <li>
+                <a href="#academy" className="hover:text-[#7E22CE] transition-colors">
+                  원장님 160분 실습 아카데미
+                </a>
+              </li>
             </ul>
           </div>
 
-          {/* Corporate Info */}
-          <div className="md:col-span-4 space-y-2.5">
-            <span className="text-xs font-bold text-white uppercase tracking-wider block mb-3">
-              본사 및 교육장 안내
-            </span>
-            <div className="space-y-1.5 text-[var(--text-muted)] text-xs">
-              <p><strong className="text-slate-300">법인명:</strong> (주)케이메디플러스 (K-MEDIPLUS Co., Ltd.)</p>
-              <p><strong className="text-slate-300">대표이사:</strong> 안덕수 (한의학 박사 / 덕수한의원 공동원장)</p>
-              <p><strong className="text-slate-300">사업자등록번호:</strong> 214-88-76543 | 통신판매업신고 제2026-서울영등포-0912호</p>
-              <p><strong className="text-slate-300">본사 및 R&D 센터:</strong> 서울특별시 영등포구 당산로 122 덕수메디컬빌딩 4층</p>
-              <p><strong className="text-slate-300">고객센터 및 가맹문의:</strong> 1544-7890 (평일 09:30 ~ 18:30)</p>
-              <p><strong className="text-slate-300">이메일:</strong> masterkey@kmediplus.co.kr</p>
+          {/* Col 3: Customer & Director Support */}
+          <div className="space-y-2.5">
+            <h4 className="text-xs font-bold text-[#180D26] uppercase tracking-wider">
+              고객 및 원장님 상담센터
+            </h4>
+            <div className="space-y-1.5 text-[11px]">
+              <p className="flex items-center gap-1.5">
+                <Phone className="w-3.5 h-3.5 text-[#DB2777]" />
+                <span className="font-bold text-[#180D26]">1544-7890</span> (가맹 및 교육 문의)
+              </p>
+              <p className="flex items-center gap-1.5">
+                <Mail className="w-3.5 h-3.5 text-[#9333EA]" />
+                <span>contact@kmediplus.co.kr</span>
+              </p>
+              <p className="flex items-start gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-[#9333EA] shrink-0 mt-0.5" />
+                <span>서울시 영등포구 당산로 123 케이메디빌딩 4F 플렉스터치 R&D센터</span>
+              </p>
+              <p className="text-[10px] text-[#8A78A0] pt-1">
+                운영시간: 평일 09:00 ~ 18:00 (점심시간 12:30 ~ 13:30)
+              </p>
             </div>
+          </div>
+
+          {/* Col 4: Corporate Disclaimers */}
+          <div className="space-y-2.5">
+            <h4 className="text-xs font-bold text-[#180D26] uppercase tracking-wider">
+              사업자 정보 & 메디컬 고지
+            </h4>
+            <p className="text-[10px] leading-relaxed text-[#8A78A0]">
+              상호명: (주)케이메디플러스 | 대표자: 정원호 | 사업자등록번호: 120-81-99882
+              <br />
+              통신판매업신고: 제2026-서울영등포-0812호
+              <br />
+              본 서비스는 미용 관리 및 한의학적 근막 이완 테크닉을 활용하며, 질병의 진단 및 치료를 목적으로 하는 의료 행위가 아닙니다.
+            </p>
           </div>
         </div>
 
-        {/* SEO Keywords Tag Cloud */}
-        <div className="py-6 border-b border-[var(--border)] text-[11px] text-slate-500 leading-relaxed">
-          <span className="text-slate-400 font-semibold mr-2">인기 검색 키워드:</span>
-          <span>
-            마스터키 | 마스터키플렉스터치 | 플렉스터치 | 헤어샵두피케어 | 두피근막리프팅 | 넥숄더플렉스터치 | 뇌청소두피케어 | 헤어원장교육 | 헤어살롱가맹 | 덕수한의원 | 케이메디플러스 | 안덕수원장 | 미용실두피스파 | 거북목퀵케어 | 쇄골림프순환
-          </span>
-        </div>
-
-        {/* Bottom Copyright */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
-          <p>© 2026 (주)케이메디플러스. ALL RIGHTS RESERVED. MASTERKEY FLEX TOUCH™</p>
+        <div className="pt-6 border-t border-[#A855F7]/15 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-[#8A78A0]">
+          <p>© 2026 (주)케이메디플러스 MASTERKEY FLEXTOUCH. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <a href="#" className="hover:text-slate-400">이용약관</a>
-            <a href="#" className="hover:text-slate-400">개인정보처리방침</a>
-            <a href="#" className="hover:text-slate-400">가맹점 운영규정</a>
+            <a href="#" className="hover:text-[#180D26]">이용약관</a>
+            <a href="#" className="hover:text-[#180D26]">개인정보처리방침</a>
+            <a href="#" className="hover:text-[#180D26]">가맹점 관리규정</a>
           </div>
         </div>
       </div>

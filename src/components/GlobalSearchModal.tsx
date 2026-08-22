@@ -55,7 +55,8 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
       q.includes('실습') ||
       q.includes('가맹') ||
       q.includes('월요일') ||
-      q.includes('화요일');
+      q.includes('화요일') ||
+      q.includes('정원호');
 
     return {
       salons: matchedSalons,
@@ -67,35 +68,35 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-16 sm:pt-24 bg-black/80 backdrop-blur-md animate-in fade-in duration-150">
-      <div className="relative w-full max-w-2xl bg-[#0d0d0d] border border-[var(--gold)]/40 rounded-2xl shadow-2xl text-slate-100 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-16 sm:pt-24 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className="relative w-full max-w-2xl bg-white border border-[#A855F7]/30 rounded-3xl shadow-2xl text-[#180D26] overflow-hidden">
         {/* Search Input Header */}
-        <div className="p-4 sm:p-5 border-b border-[var(--border)] flex items-center gap-3">
-          <Search className="w-5 h-5 text-[var(--gold)] shrink-0" />
+        <div className="p-4 sm:p-5 border-b border-[#A855F7]/15 flex items-center gap-3">
+          <Search className="w-5 h-5 text-[#DB2777] shrink-0" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="마스터키, 지역명(강남/분당), 시술명(넥숄더/리프팅), 교육..."
             autoFocus
-            className="w-full bg-transparent text-white text-sm sm:text-base placeholder-slate-500 focus:outline-none"
+            className="w-full bg-transparent text-[#180D26] text-sm sm:text-base placeholder-[#8A78A0] focus:outline-none"
           />
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg bg-[#1a1a1a] text-[var(--text-muted)] hover:text-white"
+            className="p-1.5 rounded-xl bg-[#FAF7FD] text-[#5B4870] hover:text-[#180D26] cursor-pointer border border-[#A855F7]/20"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Quick Keyword Pills */}
-        <div className="px-4 py-2.5 bg-[#121212] border-b border-[var(--border)] flex items-center gap-1.5 overflow-x-auto text-xs">
-          <span className="text-[var(--text-muted)] font-semibold shrink-0">추천 검색:</span>
+        <div className="px-4 py-2.5 bg-[#FAF7FD] border-b border-[#A855F7]/15 flex items-center gap-1.5 overflow-x-auto text-xs">
+          <span className="text-[#5B4870] font-semibold shrink-0">추천 검색:</span>
           {quickKeywords.map((kw) => (
             <button
               key={kw}
               onClick={() => setQuery(kw)}
-              className="px-2.5 py-0.5 rounded-full bg-[#1c1c1c] text-slate-300 hover:text-[var(--gold)] hover:bg-[#252525] border border-[var(--border)] whitespace-nowrap cursor-pointer"
+              className="px-2.5 py-0.5 rounded-full bg-white text-[#7E22CE] hover:text-[#BE185D] hover:bg-[#F3E8FC] border border-[#A855F7]/25 whitespace-nowrap cursor-pointer transition-colors font-medium"
             >
               #{kw}
             </button>
@@ -105,13 +106,13 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         {/* Search Results Area */}
         <div className="p-4 sm:p-6 max-h-[60vh] overflow-y-auto space-y-6">
           {query.trim() === '' ? (
-            <div className="text-center py-8 text-xs text-[var(--text-muted)]">
+            <div className="text-center py-8 text-xs text-[#5B4870]">
               검색어를 입력하시면 가맹 살롱, 프로그램, 교육 정보가 실시간 표시됩니다.
             </div>
           ) : searchResults.salons.length === 0 &&
             searchResults.programs.length === 0 &&
             !searchResults.academyMatches ? (
-            <div className="text-center py-8 text-[var(--text-muted)] text-xs">
+            <div className="text-center py-8 text-[#5B4870] text-xs">
               '{query}'에 해당하는 검색 결과가 없습니다.
             </div>
           ) : (
@@ -119,7 +120,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
               {/* Academy Result */}
               {searchResults.academyMatches && (
                 <div>
-                  <h4 className="text-xs font-bold text-[var(--gold)] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-[#DB2777] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <GraduationCap className="w-4 h-4" />
                     <span>원장님 교육 & 아카데미</span>
                   </h4>
@@ -128,17 +129,17 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                       onClose();
                       onSelectAcademy();
                     }}
-                    className="p-3.5 rounded-xl bg-gradient-to-r from-[#18150c] to-[#121212] border border-[var(--gold)]/50 hover:border-[var(--gold)] cursor-pointer transition-all flex items-center justify-between"
+                    className="p-4 rounded-2xl bg-gradient-to-r from-[#FAF7FD] to-[#F3E8FC] border border-[#A855F7]/30 hover:border-[#DB2777] cursor-pointer transition-all flex items-center justify-between shadow-sm"
                   >
                     <div>
-                      <h5 className="text-xs font-bold text-white">
-                        [한의사 안덕수 직강] 뇌청소 & 두피케어 정기 실습 아카데미 (매주 월/화 저녁 8시)
+                      <h5 className="text-xs font-bold text-[#180D26]">
+                        [한의사 정원호 대표 직강] 뇌청소와 두피케어 매주 월/화 저녁 8시 실습강의
                       </h5>
-                      <p className="text-[11px] text-[var(--text-muted)] mt-0.5">
-                        이론 100분 + 1:1 실습 60분 / 덕수한의원 메디컬 실습센터
+                      <p className="text-[11px] text-[#5B4870] mt-0.5">
+                        이론 100분 + 1:1 실습 60분 / 플렉스터치 메디컬 실습센터
                       </p>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-[var(--gold)] shrink-0 ml-2" />
+                    <ArrowRight className="w-4 h-4 text-[#DB2777] shrink-0 ml-2" />
                   </div>
                 </div>
               )}
@@ -146,7 +147,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
               {/* Matched Programs */}
               {searchResults.programs.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-bold text-[var(--gold)] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-[#DB2777] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <Sparkles className="w-4 h-4" />
                     <span>시그니처 시술 프로그램 ({searchResults.programs.length})</span>
                   </h4>
@@ -158,13 +159,13 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                           onClose();
                           onSelectProgram(prog.id);
                         }}
-                        className="p-3 rounded-xl bg-[#121212] border border-[var(--border)] hover:border-[var(--gold)]/60 cursor-pointer transition-all flex items-center justify-between"
+                        className="p-3.5 rounded-2xl bg-white border border-[#A855F7]/20 hover:border-[#DB2777]/60 cursor-pointer transition-all flex items-center justify-between shadow-sm"
                       >
                         <div>
-                          <span className="text-xs font-bold text-white">{prog.title}</span>
-                          <p className="text-[11px] text-[var(--text-muted)] truncate">{prog.tagline}</p>
+                          <span className="text-xs font-bold text-[#180D26]">{prog.title}</span>
+                          <p className="text-[11px] text-[#5B4870] truncate">{prog.tagline}</p>
                         </div>
-                        <ChevronRight className="w-4 h-4 text-[var(--text-muted)] shrink-0 ml-2" />
+                        <ChevronRight className="w-4 h-4 text-[#8A78A0] shrink-0 ml-2" />
                       </div>
                     ))}
                   </div>
@@ -174,7 +175,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
               {/* Matched Salons */}
               {searchResults.salons.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-bold text-[var(--gold)] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-[#DB2777] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <MapPin className="w-4 h-4" />
                     <span>가맹 헤어샵 지점 ({searchResults.salons.length})</span>
                   </h4>
@@ -186,18 +187,18 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                           onClose();
                           onSelectSalon(salon.id);
                         }}
-                        className="p-3 rounded-xl bg-[#121212] border border-[var(--border)] hover:border-[var(--gold)]/60 cursor-pointer transition-all flex items-center justify-between"
+                        className="p-3.5 rounded-2xl bg-white border border-[#A855F7]/20 hover:border-[#DB2777]/60 cursor-pointer transition-all flex items-center justify-between shadow-sm"
                       >
                         <div>
                           <div className="flex items-center gap-1.5">
-                            <span className="text-xs font-bold text-white">{salon.name}</span>
-                            <span className="text-[10px] text-[var(--gold)]">({salon.branch})</span>
+                            <span className="text-xs font-bold text-[#180D26]">{salon.name}</span>
+                            <span className="text-[10px] text-[#BE185D] font-semibold">({salon.branch})</span>
                           </div>
-                          <p className="text-[11px] text-[var(--text-muted)] truncate">
+                          <p className="text-[11px] text-[#5B4870] truncate">
                             {salon.address} ({salon.nearestStation})
                           </p>
                         </div>
-                        <span className="text-[10px] px-2 py-1 rounded bg-[var(--gold)]/20 text-[var(--gold)] border border-[var(--gold)]/30 font-bold shrink-0 ml-2">
+                        <span className="text-[10px] px-2.5 py-1 rounded-lg bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/40 font-bold shrink-0 ml-2">
                           위치 보기 & 예약
                         </span>
                       </div>

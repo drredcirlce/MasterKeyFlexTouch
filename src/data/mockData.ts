@@ -1,12 +1,12 @@
 import { Program, Salon, Review, FaqItem } from '../types';
 
 export const FOUNDER_PROFILE = {
-  name: '안덕수',
+  name: '정원호',
   title: '한의학 박사 / (주)케이메디플러스 대표이사',
   roles: [
-    '한의사 (덕수한의원 공동원장)',
+    '한의사 (한의학 박사)',
     '(주)케이메디플러스 대표이사 & 총괄 R&D 디렉터',
-    'R7 통증·근막 전문 교육강사',
+    '뇌청소·두피케어 & 근막 전문 수석 직강',
     '마스터키 플렉스터치(MASTERKEY FLEXTOUCH) 창안자',
     '대한한의학회 정회원 & 뇌신경두피근막 연구회 수석자문'
   ],

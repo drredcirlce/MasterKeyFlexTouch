@@ -3,23 +3,21 @@ import { Salon } from '../types';
 import {
   MapPin,
   Search,
-  Star,
   Phone,
   Clock,
-  Car,
-  ShieldCheck,
-  Calendar,
-  Sparkles,
-  ExternalLink,
-  SlidersHorizontal,
-  Compass,
+  Award,
+  Navigation,
   CheckCircle2,
-  Share2
+  Calendar,
+  ExternalLink,
+  ChevronRight,
+  Filter,
+  Sparkles
 } from 'lucide-react';
 
 interface SalonLocatorProps {
   salons: Salon[];
-  onOpenReservation: (salonId: string, programId?: string) => void;
+  onOpenReservation: (salonId: string) => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
 }
@@ -31,303 +29,134 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
   onSearchChange,
 }) => {
   const [selectedCity, setSelectedCity] = useState<string>('all');
-  const [selectedDistrict, setSelectedDistrict] = useState<string>('all');
-  const [selectedSalonId, setSelectedSalonId] = useState<string>(salons[0]?.id || '');
-  const [onlyCertified, setOnlyCertified] = useState<boolean>(false);
-  const [mapViewType, setMapViewType] = useState<'standard' | 'satellite'>('standard');
-  const [copiedToast, setCopiedToast] = useState<string | null>(null);
+  const [selectedSalonId, setSelectedSalonId] = useState<string>(salons[0]?.id || 'salon-1');
 
-  // Region filters
-  const cities = ['all', '서울', '경기', '부산', '대구', '대전'];
-
-  const districtsByCity: Record<string, string[]> = {
-    '서울': ['all', '강남구', '서초구', '마포구'],
-    '경기': ['all', '분당구'],
-    '부산': ['all', '해운대구'],
-    '대구': ['all', '수성구'],
-    '대전': ['all', '유성구'],
-  };
+  const cities = ['all', '서울', '경기', '부산'];
 
   const filteredSalons = useMemo(() => {
     return salons.filter((salon) => {
-      // City filter
-      if (selectedCity !== 'all' && salon.city !== selectedCity) return false;
-      // District filter
-      if (selectedDistrict !== 'all' && salon.district !== selectedDistrict) return false;
-      // Certified master filter
-      if (onlyCertified && !salon.isCertifiedMaster) return false;
-      // Search query
-      if (searchQuery.trim() !== '') {
-        const q = searchQuery.toLowerCase().trim();
-        const matchName = salon.name.toLowerCase().includes(q);
-        const matchBranch = salon.branch.toLowerCase().includes(q);
-        const matchAddress = salon.address.toLowerCase().includes(q);
-        const matchDistrict = salon.district.toLowerCase().includes(q);
-        const matchStation = salon.nearestStation.toLowerCase().includes(q);
-        const matchFeatures = salon.features.some((f) => f.toLowerCase().includes(q));
-        const matchDirector = salon.directorName.toLowerCase().includes(q);
-        const matchTag = q === '마스터키' || q === '플렉스터치' || q === '두피케어' || q === '넥숄더';
+      const matchCity = selectedCity === 'all' || salon.city.includes(selectedCity);
+      const q = searchQuery.toLowerCase().trim();
+      const matchQuery =
+        !q ||
+        salon.name.toLowerCase().includes(q) ||
+        salon.branch.toLowerCase().includes(q) ||
+        salon.address.toLowerCase().includes(q) ||
+        salon.district.toLowerCase().includes(q) ||
+        salon.nearestStation.toLowerCase().includes(q);
 
-        if (!matchName && !matchBranch && !matchAddress && !matchDistrict && !matchStation && !matchFeatures && !matchDirector && !matchTag) {
-          return false;
-        }
-      }
-      return true;
+      return matchCity && matchQuery;
     });
-  }, [salons, selectedCity, selectedDistrict, onlyCertified, searchQuery]);
+  }, [salons, selectedCity, searchQuery]);
 
-  const activeSalon = useMemo(() => {
-    return salons.find((s) => s.id === selectedSalonId) || filteredSalons[0] || salons[0];
-  }, [salons, selectedSalonId, filteredSalons]);
-
-  const handleShare = (salon: Salon) => {
-    navigator.clipboard?.writeText(`${salon.name} (${salon.branch}) - ${salon.address} / 전화: ${salon.phone}`);
-    setCopiedToast(`${salon.name} 정보가 복사되었습니다.`);
-    setTimeout(() => setCopiedToast(null), 3000);
-  };
+  const activeSalon = salons.find((s) => s.id === selectedSalonId) || filteredSalons[0] || salons[0];
 
   return (
-    <section id="salons" className="scroll-mt-20 sm:scroll-mt-24 py-16 lg:py-24 border-b border-[#D4AF37]/20 relative bg-[#080808]">
+    <section id="salons" className="scroll-mt-20 sm:scroll-mt-24 py-16 lg:py-24 border-b border-[#A855F7]/15 relative bg-[#FAF7FD]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Toast Notification */}
-        {copiedToast && (
-          <div className="fixed top-20 right-6 z-50 px-4 py-2 rounded bg-[#D4AF37] text-[#080808] font-bold text-xs shadow-xl animate-in fade-in">
-            {copiedToast}
-          </div>
-        )}
-
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="hero-badge-dark inline-flex items-center gap-2 mb-3">
-            <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>CERTIFIED SALON LOCATOR</span>
+            <MapPin className="w-3.5 h-3.5 text-[#DB2777]" />
+            <span>CERTIFIED MASTERKEY SALONS</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-normal text-[#F2F2F2] font-serif-luxury mb-3">
-            전국 마스터키 공인 가맹 헤어샵
+          <h2 className="text-2xl sm:text-4xl font-bold text-[#180D26] font-serif-luxury mb-4">
+            전국 공인 인증 가맹 헤어살롱
+            <span className="block mt-1 text-beauty-gradient">
+              내 주변 가장 가까운 마스터 헤어샵 찾기
+            </span>
           </h2>
-          <p className="text-sm sm:text-base text-[#888888] font-light">
-            (주)케이메디플러스 인증 한의학 근막 테크닉을 완벽히 이수한 공식 마스터 살롱을 검색하고 편리하게 예약하세요.
+          <p className="text-sm sm:text-base text-[#5B4870]">
+            (주)케이메디플러스 플렉스터치 정규 수료 인증을 획득한 전문 원장님이 직접 시술합니다.
           </p>
         </div>
 
-        {/* Filter Controls Bar */}
-        <div className="bg-[#121212] border border-[#D4AF37]/20 rounded-xl p-4 sm:p-5 mb-8 shadow-xl space-y-3.5">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
-            {/* Search Input Box */}
-            <div className="md:col-span-5 relative">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
-                placeholder="지역명, 역 이름(강남역/판교역), 살롱 이름..."
-                className="w-full pl-9 pr-8 py-2.5 rounded bg-[#181818] border border-[#262626] text-[#F2F2F2] text-xs sm:text-sm placeholder-[#666666] focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]"
-              />
-              <Search className="w-4 h-4 text-[#888888] absolute left-3 top-1/2 -translate-y-1/2" />
-              {searchQuery && (
-                <button
-                  onClick={() => onSearchChange('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#888888] hover:text-[#F2F2F2] cursor-pointer"
-                >
-                  지우기
-                </button>
-              )}
-            </div>
-
-            {/* City Tabs */}
-            <div className="md:col-span-5 flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-              {cities.map((city) => (
-                <button
-                  key={city}
-                  onClick={() => {
-                    setSelectedCity(city);
-                    setSelectedDistrict('all');
-                  }}
-                  className={`px-3 py-2 rounded text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer ${
-                    selectedCity === city
-                      ? 'bg-[#D4AF37] text-[#080808]'
-                      : 'bg-[#181818] text-[#888888] hover:text-[#F2F2F2] border border-[#262626]'
-                  }`}
-                >
-                  {city === 'all' ? '전국 전체' : city}
-                </button>
-              ))}
-            </div>
-
-            {/* Certified Only Checkbox */}
-            <div className="md:col-span-2 flex items-center justify-end">
-              <label className="inline-flex items-center gap-2 cursor-pointer text-xs font-medium text-[#CCCCCC] whitespace-nowrap">
-                <input
-                  type="checkbox"
-                  checked={onlyCertified}
-                  onChange={(e) => setOnlyCertified(e.target.checked)}
-                  className="w-4 h-4 rounded border-[#262626] bg-[#181818] text-[#D4AF37] focus:ring-[#D4AF37]"
-                />
-                <span className="text-[#D4AF37]">공인인증점만</span>
-              </label>
-            </div>
+        {/* Filter and Search Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 bg-white p-4 rounded-2xl border border-[#A855F7]/20 shadow-sm">
+          {/* City Filter Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
+            <span className="text-xs font-bold text-[#5B4870] shrink-0 mr-1 flex items-center gap-1">
+              <Filter className="w-3.5 h-3.5 text-[#7E22CE]" />
+              <span>지역:</span>
+            </span>
+            {cities.map((city) => (
+              <button
+                key={city}
+                onClick={() => setSelectedCity(city)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                  selectedCity === city
+                    ? 'bg-gradient-to-r from-[#9333EA] to-[#DB2777] text-white shadow-sm'
+                    : 'bg-[#FAF7FD] text-[#5B4870] hover:text-[#180D26] hover:bg-[#F3E8FC]'
+                }`}
+              >
+                {city === 'all' ? '전국 전체' : city}
+              </button>
+            ))}
           </div>
 
-          {/* District sub-filter if city selected */}
-          {selectedCity !== 'all' && districtsByCity[selectedCity] && (
-            <div className="flex items-center gap-2 pt-2.5 border-t border-[#262626] text-xs">
-              <span className="text-[#888888] font-semibold shrink-0">세부 지역:</span>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {districtsByCity[selectedCity].map((dist) => (
-                  <button
-                    key={dist}
-                    onClick={() => setSelectedDistrict(dist)}
-                    className={`px-2.5 py-1 rounded text-xs transition-colors cursor-pointer ${
-                      selectedDistrict === dist
-                        ? 'bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/50 font-bold'
-                        : 'bg-[#181818] text-[#888888] hover:text-[#F2F2F2] border border-[#262626]'
-                    }`}
-                  >
-                    {dist === 'all' ? `${selectedCity} 전체` : dist}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Search Input */}
+          <div className="relative w-full sm:w-72">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder="살롱명, 역세권(강남/판교), 구(강남구)..."
+              className="w-full pl-9 pr-3 py-2 text-xs bg-[#FAF7FD] border border-[#A855F7]/25 rounded-xl text-[#180D26] placeholder-[#8A78A0] focus:outline-none focus:border-[#DB2777] focus:ring-1 focus:ring-[#DB2777]/30 transition-all"
+            />
+            <Search className="w-4 h-4 text-[#8A78A0] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
         </div>
 
-        {/* Interactive Map & Salon List Layout */}
+        {/* Map & List Split Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Column: Salon List Cards */}
-          <div className="lg:col-span-5 space-y-4 max-h-[640px] overflow-y-auto pr-1">
-            <div className="flex items-center justify-between pb-2">
-              <span className="text-xs text-[#888888] font-medium">
-                검색된 가맹 살롱: <strong className="text-[#D4AF37]">{filteredSalons.length}</strong>곳
-              </span>
-              <span className="text-[11px] text-[#666666]">
-                카드를 클릭하면 지도 위치가 표시됩니다
-              </span>
-            </div>
-
+          {/* Left Column: Salon List */}
+          <div className="lg:col-span-5 space-y-3.5 max-h-[640px] overflow-y-auto pr-1">
             {filteredSalons.length === 0 ? (
-              <div className="p-8 text-center bg-[#121212] rounded-xl border border-[#262626]">
-                <p className="text-sm text-[#888888] mb-2">검색 조건에 맞는 가맹 헤어샵이 없습니다.</p>
-                <button
-                  onClick={() => {
-                    setSelectedCity('all');
-                    setSelectedDistrict('all');
-                    onSearchChange('');
-                  }}
-                  className="text-xs text-[#D4AF37] font-bold underline cursor-pointer"
-                >
-                  필터 전체 초기화
-                </button>
+              <div className="text-center py-12 bg-white rounded-2xl border border-[#A855F7]/20 p-6">
+                <MapPin className="w-8 h-8 text-[#8A78A0] mx-auto mb-2 opacity-50" />
+                <p className="text-sm font-bold text-[#180D26]">검색 결과가 없습니다.</p>
+                <p className="text-xs text-[#5B4870] mt-1">지역명이나 살롱명을 다시 확인해주세요.</p>
               </div>
             ) : (
               filteredSalons.map((salon) => {
-                const isSelected = activeSalon?.id === salon.id;
+                const isSelected = salon.id === activeSalon.id;
                 return (
                   <div
                     key={salon.id}
                     onClick={() => setSelectedSalonId(salon.id)}
-                    className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer ${
+                    className={`p-5 rounded-2xl transition-all cursor-pointer border ${
                       isSelected
-                        ? 'bg-[#181818] border-[#D4AF37] shadow-lg shadow-[#D4AF37]/15'
-                        : 'bg-[#121212] border-[#262626] hover:border-[#D4AF37]/40 hover:bg-[#161616]'
+                        ? 'bg-gradient-to-br from-[#FCE7F3]/40 to-[#F3E8FC]/60 border-[#DB2777] shadow-md'
+                        : 'bg-white border-[#A855F7]/18 hover:border-[#9333EA]/40 shadow-sm'
                     }`}
                   >
-                    {/* Header line */}
-                    <div className="flex items-start justify-between gap-2 mb-1.5">
+                    <div className="flex items-start justify-between gap-2 mb-2">
                       <div>
-                        {salon.isCertifiedMaster && (
-                          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40 mb-1">
-                            <ShieldCheck className="w-3 h-3 text-[#D4AF37]" />
-                            마스터키 공인인증점
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/40">
+                            {salon.certifiedGrade}
                           </span>
-                        )}
-                        <h4 className="text-base font-bold text-[#F2F2F2] font-serif-luxury group-hover:text-[#D4AF37]">
-                          {salon.name}
-                        </h4>
-                        <span className="text-xs text-[#888888]">
-                          {salon.branch} · 대표원장 {salon.directorName}
-                        </span>
+                          <span className="text-xs text-[#5B4870] font-semibold">{salon.city} · {salon.district}</span>
+                        </div>
+                        <h4 className="text-base font-bold text-[#180D26]">{salon.name} <span className="text-xs text-[#7E22CE]">({salon.branch})</span></h4>
                       </div>
-                      <div className="flex items-center gap-1 bg-[#181818] px-2 py-0.5 rounded border border-[#262626]">
-                        <Star className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" />
-                        <span className="text-xs font-bold text-[#F2F2F2]">{salon.rating}</span>
-                        <span className="text-[10px] text-[#888888]">({salon.reviewCount})</span>
+
+                      <div className="w-8 h-8 rounded-xl bg-white border border-[#A855F7]/25 flex items-center justify-center text-[#9333EA] shrink-0 shadow-sm">
+                        <MapPin className="w-4 h-4" />
                       </div>
                     </div>
 
-                    {/* Address line */}
-                    <div className="flex items-center gap-1 text-xs text-[#CCCCCC] mb-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
-                      <span>{salon.address}</span>
-                      <span className="text-[11px] text-[#888888]">({salon.nearestStation})</span>
-                    </div>
+                    <p className="text-xs text-[#5B4870] mb-2 truncate">{salon.address}</p>
 
-                    {/* Meta info tags */}
-                    <div className="flex items-center gap-2 text-[11px] text-[#888888] mb-3 flex-wrap">
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-[#D4AF37]" />
-                        {salon.operatingHours}
+                    <div className="flex items-center justify-between text-xs pt-2 border-t border-[#A855F7]/15">
+                      <span className="text-[11px] text-[#7E22CE] font-semibold">
+                        인근: {salon.nearestStation}
                       </span>
-                      <span>·</span>
-                      <span className="flex items-center gap-1">
-                        <Car className="w-3 h-3 text-[#D4AF37]" />
-                        {salon.parkingInfo}
-                      </span>
-                    </div>
-
-                    {/* Feature Chips */}
-                    <div className="flex items-center gap-1.5 flex-wrap mb-3">
-                      {salon.features.map((feature, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#181818] text-[#888888] border border-[#262626]"
-                        >
-                          {feature}
+                      <div className="flex items-center gap-2">
+                        <span className="text-[11px] text-[#BE185D] font-bold">
+                          ★ {salon.rating} ({salon.reviewCount})
                         </span>
-                      ))}
-                    </div>
-
-                    {/* Action buttons */}
-                    <div className="flex items-center justify-between pt-2 border-t border-[#262626] gap-2">
-                      <div className="flex items-center gap-2">
-                        <a
-                          href={`tel:${salon.phone}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="p-1.5 rounded bg-[#181818] hover:bg-[#222222] text-[#888888] hover:text-[#F2F2F2] border border-[#262626] transition-colors"
-                          title="전화 걸기"
-                        >
-                          <Phone className="w-3.5 h-3.5" />
-                        </a>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleShare(salon);
-                          }}
-                          className="p-1.5 rounded bg-[#181818] hover:bg-[#222222] text-[#888888] hover:text-[#F2F2F2] border border-[#262626] transition-colors cursor-pointer"
-                          title="매장 정보 복사"
-                        >
-                          <Share2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedSalonId(salon.id);
-                          }}
-                          className="px-3 py-1.5 rounded bg-[#181818] hover:bg-[#222222] text-xs font-semibold text-[#CCCCCC] hover:text-[#F2F2F2] border border-[#262626] transition-colors cursor-pointer"
-                        >
-                          지도 보기
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onOpenReservation(salon.id);
-                          }}
-                          className="px-3.5 py-1.5 rounded bg-[#D4AF37] hover:bg-[#e5c158] text-[#080808] text-xs font-bold uppercase tracking-wider flex items-center gap-1 transition-colors shadow-sm cursor-pointer"
-                        >
-                          <Calendar className="w-3 h-3" />
-                          <span>예약하기</span>
-                        </button>
+                        <ChevronRight className="w-4 h-4 text-[#8A78A0]" />
                       </div>
                     </div>
                   </div>
@@ -336,172 +165,134 @@ export const SalonLocator: React.FC<SalonLocatorProps> = ({
             )}
           </div>
 
-          {/* Right Column: Stylized Interactive Salon Map View */}
-          <div className="lg:col-span-7 bg-[#121212] border border-[#D4AF37]/30 rounded-2xl overflow-hidden shadow-2xl flex flex-col min-h-[640px]">
-            {/* Map Header Toolbar */}
-            <div className="p-4 bg-[#161616] border-b border-[#262626] flex items-center justify-between flex-wrap gap-2">
-              <div className="flex items-center gap-2">
-                <Compass className="w-4 h-4 text-[#D4AF37]" />
-                <span className="text-xs font-bold uppercase tracking-wider text-[#F2F2F2]">
-                  전국 가맹 살롱 네트워크 맵
-                </span>
-                <span className="text-[11px] text-[#888888] hidden sm:inline">
-                  (마커를 클릭하여 매장 정보 확인)
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="flex rounded bg-[#181818] p-0.5 border border-[#262626] text-[11px]">
+          {/* Right Column: Interactive Map Preview + Active Salon Deep Card */}
+          <div className="lg:col-span-7 rounded-3xl bg-white border border-[#A855F7]/20 p-6 shadow-lg flex flex-col justify-between overflow-hidden">
+            {/* Visual Simulated Map Display */}
+            <div className="relative w-full h-72 sm:h-80 rounded-2xl bg-gradient-to-br from-[#FAF7FD] to-[#F3E8FC] border border-[#A855F7]/20 overflow-hidden mb-6 flex items-center justify-center">
+              {/* Map grid lines */}
+              <div className="absolute inset-0 mock-map-grid opacity-60" />
+
+              {/* Graphical Map Roads & Overlay Elements */}
+              <div className="absolute top-1/3 left-0 right-0 h-4 bg-white/70 transform -rotate-6 shadow-sm pointer-events-none" />
+              <div className="absolute top-0 bottom-0 left-1/2 w-4 bg-white/70 transform rotate-12 shadow-sm pointer-events-none" />
+
+              {/* Map Pins */}
+              {filteredSalons.map((s) => {
+                const isActive = s.id === activeSalon.id;
+                // pseudo positions based on hash
+                const leftPercent = 20 + ((s.id.charCodeAt(s.id.length - 1) * 17) % 65);
+                const topPercent = 20 + ((s.id.charCodeAt(s.id.length - 1) * 23) % 60);
+
+                return (
                   <button
-                    onClick={() => setMapViewType('standard')}
-                    className={`px-2.5 py-1 rounded text-xs font-bold cursor-pointer ${
-                      mapViewType === 'standard' ? 'bg-[#D4AF37] text-[#080808]' : 'text-[#888888] hover:text-[#F2F2F2]'
+                    key={s.id}
+                    onClick={() => setSelectedSalonId(s.id)}
+                    style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}
+                    className={`absolute -translate-x-1/2 -translate-y-1/2 z-20 group cursor-pointer transition-transform duration-200 ${
+                      isActive ? 'scale-125 z-30' : 'hover:scale-110'
                     }`}
                   >
-                    일반지도
+                    <div
+                      className={`px-2.5 py-1 rounded-full text-[10px] font-bold whitespace-nowrap shadow-lg flex items-center gap-1 border ${
+                        isActive
+                          ? 'bg-[#DB2777] text-white border-white animate-pulse-beauty'
+                          : 'bg-white text-[#7E22CE] border-[#A855F7]/40'
+                      }`}
+                    >
+                      <MapPin className="w-3 h-3" />
+                      <span>{s.branch}</span>
+                    </div>
                   </button>
-                  <button
-                    onClick={() => setMapViewType('satellite')}
-                    className={`px-2.5 py-1 rounded text-xs font-bold cursor-pointer ${
-                      mapViewType === 'satellite' ? 'bg-[#D4AF37] text-[#080808]' : 'text-[#888888] hover:text-[#F2F2F2]'
-                    }`}
-                  >
-                    다크 뷰
-                  </button>
-                </div>
+                );
+              })}
+
+              {/* Map Controls Floating Badge */}
+              <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#A855F7]/30 text-[11px] font-bold text-[#180D26] shadow-sm flex items-center gap-1.5 z-10">
+                <Navigation className="w-3.5 h-3.5 text-[#DB2777]" />
+                <span>공인 살롱 실시간 위치</span>
               </div>
             </div>
 
-            {/* Custom Interactive Stylized Map Canvas View */}
-            <div className="relative flex-1 bg-[#0a0a0a] overflow-hidden flex items-center justify-center p-4">
-              {/* Map Grid and Topography Background Simulation */}
-              <div className="absolute inset-0 bg-[radial-gradient(#D4AF37_0.75px,transparent_0.75px)] [background-size:24px_24px] opacity-15" />
+            {/* Detailed Info Card for Currently Selected Salon */}
+            {activeSalon && (
+              <div className="p-5 rounded-2xl bg-[#FAF7FD] border border-[#A855F7]/20 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#A855F7]/15">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/40">
+                        {activeSalon.certifiedGrade}
+                      </span>
+                      <span className="text-xs text-[#5B4870]">원장 {activeSalon.directorName}</span>
+                    </div>
+                    <h3 className="text-lg font-bold text-[#180D26]">
+                      {activeSalon.name} ({activeSalon.branch})
+                    </h3>
+                  </div>
 
-              {/* Simulated Korea Map Regional Layout */}
-              <div className="relative w-full h-full max-w-xl max-h-[500px] flex items-center justify-center">
-                {/* SVG Korea Simplified Outline & Roads */}
-                <svg className="w-full h-full opacity-30 pointer-events-none" viewBox="0 0 400 500">
-                  <path
-                    d="M120 40 Q180 30 220 80 T260 180 T280 320 T240 440 T150 420 T100 300 T80 180 Z"
-                    fill="none"
-                    stroke="#D4AF37"
-                    strokeWidth="1.2"
-                    strokeDasharray="4 4"
-                  />
-                  <circle cx="160" cy="120" r="40" fill="rgba(212, 175, 55, 0.08)" />
-                  <circle cx="250" cy="380" r="30" fill="rgba(212, 175, 55, 0.08)" />
-                  <line x1="160" y1="120" x2="250" y2="380" stroke="#333333" strokeWidth="1" />
-                  <line x1="160" y1="120" x2="190" y2="260" stroke="#333333" strokeWidth="1" />
-                </svg>
-
-                {/* Region Labels on Map */}
-                <div className="absolute top-16 left-28 text-[11px] font-bold text-[#D4AF37]/70 font-mono pointer-events-none">
-                  수도권 (서울/경기)
-                </div>
-                <div className="absolute bottom-28 right-24 text-[11px] font-bold text-[#D4AF37]/70 font-mono pointer-events-none">
-                  영남권 (부산/대구)
-                </div>
-                <div className="absolute top-52 left-36 text-[11px] font-bold text-[#D4AF37]/70 font-mono pointer-events-none">
-                  충청권 (대전/세종)
-                </div>
-
-                {/* Interactive Salon Pins */}
-                {salons.map((salon) => {
-                  const isSelected = activeSalon?.id === salon.id;
-
-                  // Compute relative display positions based on lat/lng
-                  // Korea approximate lat: 35.1 to 37.6, lng: 126.9 to 129.2
-                  const topPercent = ((37.6 - salon.lat) / (37.6 - 35.0)) * 75 + 10;
-                  const leftPercent = ((salon.lng - 126.8) / (129.3 - 126.8)) * 75 + 12;
-
-                  return (
-                    <div
-                      key={salon.id}
-                      style={{ top: `${topPercent}%`, left: `${leftPercent}%` }}
-                      className="absolute -translate-x-1/2 -translate-y-1/2 z-20 group"
+                  <div className="text-left sm:text-right">
+                    <span className="text-xs text-[#5B4870] block">대표 번호</span>
+                    <a
+                      href={`tel:${activeSalon.phone}`}
+                      className="text-sm font-bold text-[#7E22CE] hover:text-[#DB2777] transition-colors"
                     >
-                      <button
-                        onClick={() => setSelectedSalonId(salon.id)}
-                        className={`relative p-2 rounded-full transition-transform duration-300 cursor-pointer ${
-                          isSelected
-                            ? 'scale-125 z-30'
-                            : 'hover:scale-110 z-20'
-                        }`}
-                      >
-                        {/* Pin Pulse Glow */}
-                        {isSelected && (
-                          <span className="absolute inset-0 rounded-full bg-[#D4AF37]/40 animate-ping pointer-events-none" />
-                        )}
-
-                        <div
-                          className={`w-9 h-9 rounded-full flex items-center justify-center shadow-xl border-2 transition-all ${
-                            isSelected
-                              ? 'bg-[#D4AF37] text-[#080808] border-[#F2F2F2] shadow-[#D4AF37]/50'
-                              : 'bg-[#121212] text-[#D4AF37] border-[#D4AF37]/60 hover:bg-[#D4AF37] hover:text-[#080808]'
-                          }`}
-                        >
-                          <MapPin className="w-4 h-4 fill-current" />
-                        </div>
-
-                        {/* Pin Hover Badge */}
-                        <div
-                          className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 rounded bg-[#121212] text-[#F2F2F2] border border-[#D4AF37]/50 text-[10px] font-bold whitespace-nowrap shadow-lg transition-opacity pointer-events-none ${
-                            isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                          }`}
-                        >
-                          {salon.name}
-                        </div>
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Bottom Active Salon Card Floating Overlay on Map */}
-              {activeSalon && (
-                <div className="absolute bottom-4 left-4 right-4 z-30 p-4 rounded-xl bg-[#121212]/95 border border-[#D4AF37]/50 backdrop-blur-md shadow-2xl">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#D4AF37] text-[#080808]">
-                          선택된 살롱
-                        </span>
-                        <h4 className="text-sm sm:text-base font-bold text-[#F2F2F2] font-serif-luxury">
-                          {activeSalon.name} ({activeSalon.branch})
-                        </h4>
-                      </div>
-                      <p className="text-xs text-[#888888]">
-                        {activeSalon.address} {activeSalon.detailAddress} · ☎ {activeSalon.phone}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <a
-                        href={`https://map.kakao.com/link/search/${encodeURIComponent(activeSalon.name + ' ' + activeSalon.address)}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-3 py-2 rounded bg-[#181818] border border-[#262626] hover:bg-[#202020] text-[#CCCCCC] hover:text-[#F2F2F2] text-xs font-semibold flex items-center gap-1 cursor-pointer"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5 text-[#D4AF37]" />
-                        <span>길찾기</span>
-                      </a>
-                      <button
-                        onClick={() => onOpenReservation(activeSalon.id)}
-                        className="px-4 py-2 rounded bg-[#D4AF37] text-[#080808] hover:bg-[#e5c158] text-xs font-bold uppercase tracking-wider flex items-center gap-1 shadow cursor-pointer"
-                      >
-                        <Calendar className="w-3.5 h-3.5" />
-                        <span>시술 예약</span>
-                      </button>
-                    </div>
+                      {activeSalon.phone}
+                    </a>
                   </div>
                 </div>
-              )}
-            </div>
 
-            {/* Map Bottom Footer Info */}
-            <div className="p-3 bg-[#121212] border-t border-[#262626] text-[11px] text-[#888888] flex items-center justify-between">
-              <span>* 전국 마스터키 공인 살롱은 (주)케이메디플러스 공식 인증 현판을 보유하고 있습니다.</span>
-              <span className="text-[#D4AF37] font-medium">원장님 가맹 문의: 1544-7890</span>
-            </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <div className="flex items-center gap-2 text-[#5B4870]">
+                    <MapPin className="w-4 h-4 text-[#9333EA] shrink-0" />
+                    <span>{activeSalon.address}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[#5B4870]">
+                    <Clock className="w-4 h-4 text-[#9333EA] shrink-0" />
+                    <span>{activeSalon.operatingHours} (휴무: {activeSalon.closedDay})</span>
+                  </div>
+                </div>
+
+                {/* Available Programs in this Salon */}
+                <div>
+                  <span className="text-[11px] font-bold text-[#7E22CE] uppercase tracking-wider block mb-1.5">
+                    제공 플렉스터치 시술 메뉴
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {activeSalon.availablePrograms.map((progId, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-[#180D26] border border-[#A855F7]/25"
+                      >
+                        {progId === 'neck-shoulder-flextouch'
+                          ? '5분 넥숄더 퀵터치'
+                          : progId === 'fascia-reconstruction-lifting'
+                          ? '근막재건 리프팅'
+                          : '뇌청소 두피스파'}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Reservation Action Button */}
+                <div className="pt-2 flex items-center gap-3">
+                  <button
+                    onClick={() => onOpenReservation(activeSalon.id)}
+                    className="flex-1 py-3 rounded-xl bg-gradient-to-r from-[#9333EA] via-[#A855F7] to-[#DB2777] text-white font-bold text-xs sm:text-sm shadow-md shadow-pink-900/20 hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <Calendar className="w-4 h-4" />
+                    <span>이 매장으로 시술 예약하기</span>
+                  </button>
+                  <a
+                    href={`https://map.naver.com`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-3 rounded-xl bg-white hover:bg-[#F3E8FC] text-[#7E22CE] border border-[#A855F7]/30 transition-colors shadow-sm"
+                    title="네이버 지도에서 보기"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
